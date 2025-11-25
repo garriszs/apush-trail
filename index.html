@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The American Chrono-Trail</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="scanlines"></div>
+
+    <div class="game-container">
+        <div class="header">
+            <div class="title">THE AMERICAN CHRONO-TRAIL</div>
+            <div class="status" id="system-status">SYSTEM INITIALIZING...</div>
+            <button id="mute-btn" class="retro-btn small">🔊 MUTE</button>
+        </div>
+
+        <div id="message-area" class="message-area hidden"></div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen centered-content">
+            <img src="cover.png" alt="The American Chrono-Trail Cover" class="cover-image">
+            <h1>THE AMERICAN<br>CHRONO-TRAIL</h1>
+            <p class="subtitle">TEMPORAL RECONSTRUCTION INITIATIVE</p>
+
+            <div class="intro-story">
+                <p>> ERROR: CHRONO-DISPLACEMENT DETECTED.</p>
+                <p>So... you tried to microwave a burrito while charging your Chromebook and accidentally tore a hole in
+                    the
+                    space-time continuum. Nice going.</p>
+                <p>Now you're stuck in 1491. The only way back is to navigate through U.S. history, answering questions
+                    to stabilize the timeline.</p>
+                <p class="podcast-plug">PRO TIP: You might want to binge the APUSH for All Podcast before attempting
+                    this. Just saying.</p>
+            </div>
+
+            <div class="input-group">
+                <label for="player-name">IDENTIFY YOURSELF:</label>
+                <input type="text" id="player-name" maxlength="10" placeholder="AGENT_NAME">
+            </div>
+
+            <div class="input-group">
+                <label for="mission-select">MISSION PARAMETERS:</label>
+                <select id="mission-select"
+                    style="width: 100%; padding: 10px; background: black; color: var(--text-color); border: 2px solid var(--text-color); font-family: 'Press Start 2P', cursive; margin-top: 5px;">
+                    <option value="FULL">FULL CAMPAIGN (1491-PRESENT)</option>
+                    <option value="1">PERIOD 1: 1491-1607</option>
+                    <option value="2">PERIOD 2: 1607-1754</option>
+                    <option value="3">PERIOD 3: 1754-1800</option>
+                    <option value="4">PERIOD 4: 1800-1848</option>
+                    <option value="5">PERIOD 5: 1844-1877</option>
+                    <option value="6">PERIOD 6: 1865-1898</option>
+                    <option value="7">PERIOD 7: 1890-1945</option>
+                    <option value="8">PERIOD 8: 1945-1980</option>
+                    <option value="9">PERIOD 9: 1980-PRESENT</option>
+                </select>
+            </div>
+            <button id="start-btn" onclick="startGame()">INITIATE SEQUENCE</button>
+            <button id="reset-btn" onclick="hardReset()"
+                style="margin-top: 15px; font-size: 0.8rem; opacity: 0.7; border-color: var(--danger-color); color: var(--danger-color);">INITIATE
+                HARD RESET (RESTART GAME)</button>
+            <div id="start-high-score" class="high-score-display"></div>
+        </div>
+
+        <!-- Main Game Area -->
+        <div id="main-game-container" class="hidden">
+
+            <div id="question-area" class="screen hidden">
+                <div id="question-text" class="typewriter"></div>
+                <div id="options-container" class="options-grid"></div>
+            </div>
+
+            <div id="boss-container" class="screen hidden boss-mode">
+                <h2 class="boss-title">⚠️ TEMPORAL ANOMALY DETECTED ⚠️</h2>
+                <div class="document-display">
+                    <p id="boss-doc-text"></p>
+                    <p id="boss-doc-source" class="source-cite"></p>
+                </div>
+                <p id="boss-question"></p>
+                <div id="boss-options"></div>
+            </div>
+
+            <!-- Time Warp Container -->
+            <div id="time-warp-container" class="hidden">
+                <h2 class="warp-title">⚠️ TEMPORAL ANOMALY ⚠️</h2>
+                <p class="warp-subtitle">IDENTIFY THE LEADER TO STABILIZE</p>
+                <div id="warp-question" class="warp-question">
+                    <!-- Question Text -->
+                </div>
+                <div id="warp-options">
+                    <!-- Options -->
+                </div>
+            </div>
+
+            <!-- Time Capsule Container -->
+            <div id="time-capsule-container" class="hidden">
+                <h2 class="capsule-title">📦 TIME CAPSULE DISCOVERED 📦</h2>
+                <p class="capsule-subtitle">BONUS OPPORTUNITY: RISK-FREE</p>
+                <div id="capsule-question" class="capsule-question"></div>
+                <div id="capsule-options"></div>
+            </div>
+
+            <!-- Explanation Modal -->
+            <div id="explanation-modal" class="screen hidden centered-content"
+                style="z-index: 100; background: rgba(0,0,0,0.95);">
+                <h2 style="color: var(--danger-color);">INCORRECT ANALYSIS</h2>
+                <p id="explanation-text" style="font-size: 1.5rem; max-width: 600px;"></p>
+                <div id="historical-context"
+                    style="color: var(--alert-color); font-style: italic; margin: 20px 0; max-width: 600px;"></div>
+                <button onclick="closeExplanation()">ACKNOWLEDGE</button>
+            </div>
+
+            <!-- Stimulus Container -->
+            <div id="stimulus-container" class="hidden">
+                <div id="stimulus-content-area">
+                    <h3 id="stimulus-source">SOURCE TITLE</h3>
+                    <div id="stimulus-text">
+                        <!-- Document Text Goes Here -->
+                    </div>
+                </div>
+                <div id="stimulus-interaction-area">
+                    <div id="stimulus-question-text">Question Text</div>
+                    <div id="stimulus-options">
+                        <!-- Options -->
+                    </div>
+                </div>
+            </div>
+            <div class="hud">
+                <div class="hud-item">YEAR: <span id="year-value" class="value">1491</span></div>
+                <div class="hud-item">PERIOD: <span id="period-value" class="value">P1</span></div>
+                <div class="hud-item">STABILITY:
+                    <div class="bar-container">
+                        <div id="stability-fill" class="bar-fill"></div>
+                    </div>
+                    <span id="stability-value" class="value">100%</span>
+                </div>
+                <div class="hud-item">SCORE: <span id="score-value" class="value">0</span></div>
+                <div class="hud-item">DIFFICULTY: <span id="difficulty-value" class="value">NOVICE</span></div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="audio.js"></script>
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
