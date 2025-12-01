@@ -8,16 +8,16 @@ const curriculum = [
         questions: [
             // Level 1
             { year: 1491, diff: 1, q: "Which crop was the foundation of the complex societies in the American Southwest (Pueblo)?", options: ["Tobacco", "Maize (Corn)", "Wheat", "Potatoes"], ans: "Maize (Corn)" },
-            { year: 1512, diff: 1, q: "The Encomienda System was primarily used by the Spanish to:", options: ["Convert Natives", "Extract labor", "Trade", "Govern"], ans: "Extract labor" },
-            { year: 1588, diff: 1, q: "The defeat of the Spanish Armada signaled the rise of which naval power?", options: ["France", "Portugal", "England", "Netherlands"], ans: "England" },
+            { year: 1512, diff: 1, q: "The Encomienda System was primarily used by the Spanish to:", options: ["Convert Natives", "Extract labor", "Trade", "Govern"], ans: "Extract labor", explanation: "The Encomienda System was a labor system instituted by the Spanish crown in the American colonies. In this system, a Spanish encomendero was granted a number of native laborers who would pay tributes to him in exchange for his protection." },
+            { year: 1588, diff: 1, q: "The defeat of the Spanish Armada signaled the rise of which naval power?", options: ["France", "Portugal", "England", "Netherlands"], ans: "England", explanation: "The defeat of the Spanish Armada in 1588 is often seen as the beginning of England's rise as a major naval power, paving the way for its future colonial empire." },
             // Level 2
-            { year: 1550, diff: 2, q: "Bartolomé de Las Casas differed from Sepúlveda in that he argued:", options: ["Natives were natural slaves", "Natives had souls and rights", "Spain should leave the Americas", "Gold was unimportant"], ans: "Natives had souls and rights" },
-            { year: 1492, diff: 2, q: "The 'Columbian Exchange' refers to:", options: ["The trade of gold for slaves", "The biological transfer of plants/animals/diseases", "The treaty between Spain and Portugal", "The first stock market"], ans: "The biological transfer of plants/animals/diseases" },
-            { year: 1600, diff: 2, q: "Which European power had the most cooperative relationship with Native Americans via the fur trade?", options: ["Spain", "England", "France", "Portugal"], ans: "France" },
+            { year: 1550, diff: 2, q: "Bartolomé de Las Casas differed from Sepúlveda in that he argued:", options: ["Natives were natural slaves", "Natives had souls and rights", "Spain should leave the Americas", "Gold was unimportant"], ans: "Natives had souls and rights", explanation: "Las Casas argued that Native Americans were free men in the natural order and deserved the same treatment as others, directly opposing Sepúlveda's view that they were 'natural slaves'." },
+            { year: 1492, diff: 2, q: "The 'Columbian Exchange' refers to:", options: ["The trade of gold for slaves", "The biological transfer of plants/animals/diseases", "The treaty between Spain and Portugal", "The first stock market"], ans: "The biological transfer of plants/animals/diseases", explanation: "The Columbian Exchange was the widespread transfer of plants, animals, culture, human populations, technology, diseases, and ideas between the Americas, West Africa, and the Old World in the 15th and 16th centuries." },
+            { year: 1600, diff: 2, q: "Which European power had the most cooperative relationship with Native Americans via the fur trade?", options: ["Spain", "England", "France", "Portugal"], ans: "France", explanation: "The French focused on the fur trade and often lived among Native Americans, learning their languages and customs, which fostered more cooperative relationships compared to other European powers." },
             // Level 3
-            { year: 1500, diff: 3, q: "Which factor most directly facilitated the Spanish conquest of the Aztecs?", options: ["Superior naval tactics", "Smallpox and disease", "The horse", "The printing press"], ans: "Smallpox and disease" },
-            { year: 1540, diff: 3, q: "The Pueblo Revolt of 1680 was a response to:", options: ["Forced labor", "Suppression of native religion", "Land theft", "All of the above"], ans: "All of the above" },
-            { year: 1493, diff: 3, q: "The Treaty of Tordesillas (1494) demonstrates:", options: ["The power of the Pope in international affairs", "The decline of Spain", "The rise of Protestantism", "The unity of Europe"], ans: "The power of the Pope in international affairs" },
+            { year: 1500, diff: 3, q: "Which factor most directly facilitated the Spanish conquest of the Aztecs?", options: ["Superior naval tactics", "Smallpox and disease", "The horse", "The printing press"], ans: "Smallpox and disease", explanation: "While military technology played a role, the introduction of smallpox devastated the Aztec population, killing millions and severely weakening their ability to resist the Spanish conquest." },
+            { year: 1540, diff: 3, q: "The Pueblo Revolt of 1680 was a response to:", options: ["Forced labor", "Suppression of native religion", "Land theft", "All of the above"], ans: "All of the above", explanation: "The Pueblo Revolt was a successful uprising against Spanish rule in New Mexico, driven by forced labor (encomienda), the suppression of traditional religious practices, and the seizure of land." },
+            { year: 1493, diff: 3, q: "The Treaty of Tordesillas (1494) demonstrates:", options: ["The power of the Pope in international affairs", "The decline of Spain", "The rise of Protestantism", "The unity of Europe"], ans: "The power of the Pope in international affairs", explanation: "The Treaty of Tordesillas, brokered by the Pope, divided the newly discovered lands outside Europe between Portugal and Spain, demonstrating the Pope's significant influence in international politics at the time." },
             // Expanded
             { year: 1520, diff: 2, q: "The 'Casta System' in Spanish America was defined by:", options: ["Wealth", "Education", "Race and Birth", "Military Rank"], ans: "Race and Birth" },
             { year: 1550, diff: 2, q: "Which of the following was a major consequence of the Columbian Exchange for Europe?", options: ["Population growth due to new crops", "Massive population decline", "Introduction of smallpox", "End of feudalism"], ans: "Population growth due to new crops" },
@@ -58,17 +58,17 @@ const curriculum = [
         name: "Colonial America",
         questions: [
             // Level 1
-            { year: 1607, diff: 1, q: "The primary goal of Jamestown was:", options: ["Religion", "Profit", "Defense", "Diplomacy"], ans: "Profit" },
-            { year: 1620, diff: 1, q: "The Mayflower Compact established:", options: ["Freedom of religion", "Self-government", "Slavery", "Trade with Indians"], ans: "Self-government" },
-            { year: 1692, diff: 1, q: "The Salem Witch Trials occurred in:", options: ["Virginia", "Massachusetts", "Pennsylvania", "New York"], ans: "Massachusetts" },
+            { year: 1607, diff: 1, q: "The primary goal of Jamestown was:", options: ["Religion", "Profit", "Defense", "Diplomacy"], ans: "Profit", explanation: "Jamestown was established by the Virginia Company of London as a joint-stock company with the primary goal of finding gold and generating profit for investors." },
+            { year: 1620, diff: 1, q: "The Mayflower Compact established:", options: ["Freedom of religion", "Self-government", "Slavery", "Trade with Indians"], ans: "Self-government", explanation: "The Mayflower Compact was the first agreement for self-government to be created and enforced in America, signed by 41 English colonists on the ship Mayflower." },
+            { year: 1692, diff: 1, q: "The Salem Witch Trials occurred in:", options: ["Virginia", "Massachusetts", "Pennsylvania", "New York"], ans: "Massachusetts", explanation: "The Salem Witch Trials took place in colonial Massachusetts between 1692 and 1693, reflecting the intense religious and social tensions of the time." },
             // Level 2
-            { year: 1676, diff: 2, q: "Bacon's Rebellion led to a shift from:", options: ["Indentured servitude to slavery", "Slavery to paid labor", "Farming to industry", "Monarchy to democracy"], ans: "Indentured servitude to slavery" },
-            { year: 1739, diff: 2, q: "The First Great Awakening was a reaction against:", options: ["The Enlightenment", "Catholicism", "Slavery", "The King"], ans: "The Enlightenment" },
-            { year: 1649, diff: 2, q: "The Maryland Toleration Act granted religious freedom to:", options: ["All religions", "All Christians", "Only Catholics", "Only Protestants"], ans: "All Christians" },
+            { year: 1676, diff: 2, q: "Bacon's Rebellion led to a shift from:", options: ["Indentured servitude to slavery", "Slavery to paid labor", "Farming to industry", "Monarchy to democracy"], ans: "Indentured servitude to slavery", explanation: "Bacon's Rebellion (1676) highlighted the instability of the indentured servant system, leading wealthy planters to shift towards a more permanent and controllable labor source: enslaved Africans." },
+            { year: 1739, diff: 2, q: "The First Great Awakening was a reaction against:", options: ["The Enlightenment", "Catholicism", "Slavery", "The King"], ans: "The Enlightenment", explanation: "The First Great Awakening was a religious revival that emphasized emotional spirituality and personal revelation, largely as a reaction against the rationalism of the Enlightenment." },
+            { year: 1649, diff: 2, q: "The Maryland Toleration Act granted religious freedom to:", options: ["All religions", "All Christians", "Only Catholics", "Only Protestants"], ans: "All Christians", explanation: "The Maryland Toleration Act of 1649 was a law mandating religious tolerance for Trinitarian Christians, intended to protect the Catholic minority in Maryland." },
             // Level 3
-            { year: 1630, diff: 3, q: "Winthrop's 'City upon a Hill' sermon emphasized:", options: ["Individual liberty", "Communal religious covenant", "Separation of church and state", "Economic prosperity"], ans: "Communal religious covenant" },
-            { year: 1686, diff: 3, q: "The Dominion of New England was an attempt by Britain to:", options: ["Grant independence", "Enforce the Navigation Acts", "Abolish slavery", "Expand territory"], ans: "Enforce the Navigation Acts" },
-            { year: 1735, diff: 3, q: "The Zenger Trial established a precedent for:", options: ["Freedom of the Press", "Right to bear arms", "Double jeopardy", "Habeas Corpus"], ans: "Freedom of the Press" },
+            { year: 1630, diff: 3, q: "Winthrop's 'City upon a Hill' sermon emphasized:", options: ["Individual liberty", "Communal religious covenant", "Separation of church and state", "Economic prosperity"], ans: "Communal religious covenant", explanation: "John Winthrop's sermon emphasized that the Massachusetts Bay Colony should be a model of Christian charity and community, bound by a covenant with God to work together." },
+            { year: 1686, diff: 3, q: "The Dominion of New England was an attempt by Britain to:", options: ["Grant independence", "Enforce the Navigation Acts", "Abolish slavery", "Expand territory"], ans: "Enforce the Navigation Acts", explanation: "The Dominion of New England was an administrative union created by royal authority to tighten control over the colonies and more strictly enforce the Navigation Acts." },
+            { year: 1735, diff: 3, q: "The Zenger Trial established a precedent for:", options: ["Freedom of the Press", "Right to bear arms", "Double jeopardy", "Habeas Corpus"], ans: "Freedom of the Press", explanation: "The acquittal of John Peter Zenger in 1735 established a legal precedent that truth is a defense against libel charges, laying the groundwork for freedom of the press." },
             // Expanded
             { year: 1650, diff: 1, q: "Mercantilism dictated that colonies existed to:", options: ["Provide raw materials to the mother country", "Develop their own industries", "Trade freely with the world", "Spread democracy"], ans: "Provide raw materials to the mother country" },
             { year: 1676, diff: 2, q: "A major consequence of Bacon's Rebellion was:", options: ["A shift from indentured servants to slave labor", "The end of royal rule in Virginia", "Better relations with Native Americans", "The abolition of taxes"], ans: "A shift from indentured servants to slave labor" },
@@ -110,17 +110,17 @@ const curriculum = [
         name: "Revolution & New Republic",
         questions: [
             // Level 1
-            { year: 1776, diff: 1, q: "Who wrote the Declaration of Independence?", options: ["Washington", "Jefferson", "Adams", "Hamilton"], ans: "Jefferson" },
-            { year: 1754, diff: 1, q: "The French and Indian War was fought over:", options: ["Ohio River Valley", "Florida", "Texas", "California"], ans: "Ohio River Valley" },
-            { year: 1787, diff: 1, q: "The Constitution replaced the:", options: ["Bill of Rights", "Articles of Confederation", "Magna Carta", "Mayflower Compact"], ans: "Articles of Confederation" },
+            { year: 1776, diff: 1, q: "Who wrote the Declaration of Independence?", options: ["Washington", "Jefferson", "Adams", "Hamilton"], ans: "Jefferson", explanation: "Thomas Jefferson was the primary author of the Declaration of Independence, drafting it in 1776 to explain the colonies' reasons for separating from Britain." },
+            { year: 1754, diff: 1, q: "The French and Indian War was fought over:", options: ["Ohio River Valley", "Florida", "Texas", "California"], ans: "Ohio River Valley", explanation: "The French and Indian War (Seven Years' War) began as a struggle between Britain and France for control of the strategic and fertile Ohio River Valley." },
+            { year: 1787, diff: 1, q: "The Constitution replaced the:", options: ["Bill of Rights", "Articles of Confederation", "Magna Carta", "Mayflower Compact"], ans: "Articles of Confederation", explanation: "The Constitution was written in 1787 to replace the Articles of Confederation, which had created a weak central government that was unable to effectively govern the new nation." },
             // Level 2
-            { year: 1763, diff: 2, q: "The Proclamation of 1763 angered colonists by:", options: ["Taxing tea", "Forbidding settlement west of Appalachians", "Closing Boston Harbor", "Quartering troops"], ans: "Forbidding settlement west of Appalachians" },
-            { year: 1776, diff: 2, q: "Thomas Paine's 'Common Sense' argued for:", options: ["Reconciliation", "Independence", "Monarchy", "Anarchy"], ans: "Independence" },
-            { year: 1796, diff: 2, q: "Washington's Farewell Address warned against:", options: ["Slavery", "Political Parties & Foreign Alliances", "Taxes", "Banks"], ans: "Political Parties & Foreign Alliances" },
+            { year: 1763, diff: 2, q: "The Proclamation of 1763 angered colonists by:", options: ["Taxing tea", "Forbidding settlement west of Appalachians", "Closing Boston Harbor", "Quartering troops"], ans: "Forbidding settlement west of Appalachians", explanation: "Issued by King George III, the Proclamation of 1763 forbade colonial settlement west of the Appalachian Mountains, which angered colonists who had fought in the war to gain that land." },
+            { year: 1776, diff: 2, q: "Thomas Paine's 'Common Sense' argued for:", options: ["Reconciliation", "Independence", "Monarchy", "Anarchy"], ans: "Independence", explanation: "Paine's pamphlet 'Common Sense' used plain language to argue that it was contrary to common sense for a large continent to be ruled by a small, distant island, effectively persuading many to support independence." },
+            { year: 1796, diff: 2, q: "Washington's Farewell Address warned against:", options: ["Slavery", "Political Parties & Foreign Alliances", "Taxes", "Banks"], ans: "Political Parties & Foreign Alliances", explanation: "In his Farewell Address, Washington warned the nation against the dangers of permanent foreign alliances and the divisive nature of political parties (factions)." },
             // Level 3
-            { year: 1787, diff: 3, q: "The 'Great Compromise' resolved the conflict between:", options: ["North and South", "Large and Small States", "Federalists and Anti-Federalists", "Slaves and Owners"], ans: "Large and Small States" },
-            { year: 1798, diff: 3, q: "The Alien and Sedition Acts were targeted at:", options: ["Federalists", "Democratic-Republicans", "British spies", "Native Americans"], ans: "Democratic-Republicans" },
-            { year: 1794, diff: 3, q: "The Whiskey Rebellion proved that:", options: ["The Revolution was a mistake", "The new Federal government could enforce laws", "Taxes were illegal", "Farmers were powerful"], ans: "The new Federal government could enforce laws" },
+            { year: 1787, diff: 3, q: "The 'Great Compromise' resolved the conflict between:", options: ["North and South", "Large and Small States", "Federalists and Anti-Federalists", "Slaves and Owners"], ans: "Large and Small States", explanation: "The Great Compromise (Connecticut Compromise) created a bicameral legislature with proportional representation in the House (favoring large states) and equal representation in the Senate (favoring small states)." },
+            { year: 1798, diff: 3, q: "The Alien and Sedition Acts were targeted at:", options: ["Federalists", "Democratic-Republicans", "British spies", "Native Americans"], ans: "Democratic-Republicans", explanation: "Passed by the Federalist Congress, these acts were intended to suppress dissent and weaken the Democratic-Republican party by targeting immigrants and critical press." },
+            { year: 1794, diff: 3, q: "The Whiskey Rebellion proved that:", options: ["The Revolution was a mistake", "The new Federal government could enforce laws", "Taxes were illegal", "Farmers were powerful"], ans: "The new Federal government could enforce laws", explanation: "Washington's swift military response to the Whiskey Rebellion demonstrated the new federal government's ability and willingness to enforce its laws, contrasting with the weakness of the Articles of Confederation." },
             // Expanded
             { year: 1763, diff: 2, q: "A major consequence of the French and Indian War was:", options: ["End of Salutary Neglect", "French control of Canada", "Spanish control of Florida", "Native American independence"], ans: "End of Salutary Neglect" },
             { year: 1787, diff: 2, q: "The Northwest Ordinance of 1787 is significant because it:", options: ["Banned slavery in the Northwest Territory", "Created the National Bank", "Established the Supreme Court", "Ended the Revolutionary War"], ans: "Banned slavery in the Northwest Territory" },
@@ -162,17 +162,17 @@ const curriculum = [
         name: "Democracy & Expansion",
         questions: [
             // Level 1
-            { year: 1803, diff: 1, q: "The Louisiana Purchase doubled the US size. Who sold it?", options: ["Spain", "France", "Britain", "Russia"], ans: "France" },
-            { year: 1812, diff: 1, q: "The War of 1812 was fought against:", options: ["France", "Britain", "Spain", "Mexico"], ans: "Britain" },
-            { year: 1848, diff: 1, q: "The Seneca Falls Convention focused on:", options: ["Slavery", "Women's Rights", "Temperance", "Education"], ans: "Women's Rights" },
+            { year: 1803, diff: 1, q: "The Louisiana Purchase doubled the US size. Who sold it?", options: ["Spain", "France", "Britain", "Russia"], ans: "France", explanation: "Napoleon Bonaparte of France sold the Louisiana Territory to the US for $15 million because he needed money for his wars in Europe and had lost hope of a North American empire after the Haitian Revolution." },
+            { year: 1812, diff: 1, q: "The War of 1812 was fought against:", options: ["France", "Britain", "Spain", "Mexico"], ans: "Britain", explanation: "The War of 1812 was fought between the US and Britain over issues including impressment of American sailors, trade restrictions, and British support for Native American resistance." },
+            { year: 1848, diff: 1, q: "The Seneca Falls Convention focused on:", options: ["Slavery", "Women's Rights", "Temperance", "Education"], ans: "Women's Rights", explanation: "The Seneca Falls Convention was the first women's rights convention in the US, launching the women's suffrage movement and issuing the Declaration of Sentiments." },
             // Level 2
-            { year: 1823, diff: 2, q: "The Monroe Doctrine stated:", options: ["US would control Europe", "Europe should stay out of Americas", "Slavery is banned", "Texas is US soil"], ans: "Europe should stay out of Americas" },
-            { year: 1820, diff: 2, q: "The Missouri Compromise admitted Missouri as a slave state and ___ as free.", options: ["Maine", "Vermont", "Ohio", "Kentucky"], ans: "Maine" },
-            { year: 1832, diff: 2, q: "The Nullification Crisis was about:", options: ["Slavery", "Tariffs", "Banks", "Land"], ans: "Tariffs" },
+            { year: 1823, diff: 2, q: "The Monroe Doctrine stated:", options: ["US would control Europe", "Europe should stay out of Americas", "Slavery is banned", "Texas is US soil"], ans: "Europe should stay out of Americas", explanation: "The Monroe Doctrine warned European powers that the Western Hemisphere was closed to future colonization and that the US would view any interference as a hostile act." },
+            { year: 1820, diff: 2, q: "The Missouri Compromise admitted Missouri as a slave state and ___ as free.", options: ["Maine", "Vermont", "Ohio", "Kentucky"], ans: "Maine", explanation: "The Missouri Compromise maintained the balance of power in the Senate by admitting Maine as a free state to offset Missouri's admission as a slave state." },
+            { year: 1832, diff: 2, q: "The Nullification Crisis was about:", options: ["Slavery", "Tariffs", "Banks", "Land"], ans: "Tariffs", explanation: "The Nullification Crisis arose when South Carolina attempted to nullify federal tariffs it deemed unconstitutional, challenging federal authority and threatening secession." },
             // Level 3
-            { year: 1803, diff: 3, q: "Marbury v. Madison established:", options: ["Judicial Review", "Executive Privilege", "Congressional Power", "States' Rights"], ans: "Judicial Review" },
-            { year: 1824, diff: 3, q: "The 'Corrupt Bargain' refers to the election of:", options: ["Jackson", "J.Q. Adams", "Van Buren", "Polk"], ans: "J.Q. Adams" },
-            { year: 1846, diff: 3, q: "The Wilmot Proviso proposed to:", options: ["Ban slavery in Mexican Cession lands", "Extend Missouri Compromise line", "Allow popular sovereignty", "Abolish slavery everywhere"], ans: "Ban slavery in Mexican Cession lands" },
+            { year: 1803, diff: 3, q: "Marbury v. Madison established:", options: ["Judicial Review", "Executive Privilege", "Congressional Power", "States' Rights"], ans: "Judicial Review", explanation: "Chief Justice John Marshall's ruling in Marbury v. Madison established the principle of judicial review, giving the Supreme Court the power to declare laws unconstitutional." },
+            { year: 1824, diff: 3, q: "The 'Corrupt Bargain' refers to the election of:", options: ["Jackson", "J.Q. Adams", "Van Buren", "Polk"], ans: "J.Q. Adams", explanation: "In the 1824 election, no candidate won a majority of electoral votes. The House chose John Quincy Adams, and Jackson supporters accused him of making a 'corrupt bargain' with Henry Clay to win." },
+            { year: 1846, diff: 3, q: "The Wilmot Proviso proposed to:", options: ["Ban slavery in Mexican Cession lands", "Extend Missouri Compromise line", "Allow popular sovereignty", "Abolish slavery everywhere"], ans: "Ban slavery in Mexican Cession lands", explanation: "The Wilmot Proviso was a failed proposal to ban slavery in any territory acquired from Mexico in the Mexican-American War, highlighting the growing sectional divide." },
             // Expanded
             { year: 1820, diff: 2, q: "The 'Market Revolution' was characterized by:", options: ["The shift from home production to factory production", "The end of slavery", "The rise of the internet", "The decline of cities"], ans: "The shift from home production to factory production" },
             { year: 1824, diff: 3, q: "The 'American System' advocated by Henry Clay included:", options: ["Internal improvements, tariffs, and a national bank", "Free trade and no taxes", "State banks only", "Expansion of slavery"], ans: "Internal improvements, tariffs, and a national bank" },
@@ -214,17 +214,17 @@ const curriculum = [
         name: "Civil War & Reconstruction",
         questions: [
             // Level 1
-            { year: 1861, diff: 1, q: "The Civil War began with the firing on:", options: ["Bull Run", "Fort Sumter", "Gettysburg", "Antietam"], ans: "Fort Sumter" },
-            { year: 1863, diff: 1, q: "The Emancipation Proclamation freed slaves in:", options: ["The North", "The South (Confederacy)", "Border States", "Everywhere"], ans: "The South (Confederacy)" },
-            { year: 1865, diff: 1, q: "Which amendment abolished slavery?", options: ["12th", "13th", "14th", "15th"], ans: "13th" },
+            { year: 1861, diff: 1, q: "The Civil War began with the firing on:", options: ["Bull Run", "Fort Sumter", "Gettysburg", "Antietam"], ans: "Fort Sumter", explanation: "The Civil War officially began on April 12, 1861, when Confederate forces fired upon the Union-held Fort Sumter in Charleston Harbor, South Carolina." },
+            { year: 1863, diff: 1, q: "The Emancipation Proclamation freed slaves in:", options: ["The North", "The South (Confederacy)", "Border States", "Everywhere"], ans: "The South (Confederacy)", explanation: "The Emancipation Proclamation, issued by Lincoln, declared that all persons held as slaves within the rebellious states (the Confederacy) were free, but it did not apply to the border states or Union-occupied areas." },
+            { year: 1865, diff: 1, q: "Which amendment abolished slavery?", options: ["12th", "13th", "14th", "15th"], ans: "13th", explanation: "The 13th Amendment to the US Constitution, ratified in 1865, officially abolished slavery and involuntary servitude, except as punishment for a crime." },
             // Level 2
-            { year: 1850, diff: 2, q: "The most controversial part of the Compromise of 1850 was:", options: ["California entering as free", "Fugitive Slave Act", "End of DC slave trade", "Texas debt"], ans: "Fugitive Slave Act" },
-            { year: 1857, diff: 2, q: "Dred Scott v. Sandford ruled that:", options: ["Slaves were citizens", "Slaves were property", "Slavery was illegal", "Scott was free"], ans: "Slaves were property" },
-            { year: 1862, diff: 2, q: "The Homestead Act offered:", options: ["Freedom to slaves", "Free land in the West", "Railroad jobs", "Gold mining rights"], ans: "Free land in the West" },
+            { year: 1850, diff: 2, q: "The most controversial part of the Compromise of 1850 was:", options: ["California entering as free", "Fugitive Slave Act", "End of DC slave trade", "Texas debt"], ans: "Fugitive Slave Act", explanation: "The Fugitive Slave Act was highly controversial because it required citizens in free states to assist in the capture of runaway slaves and denied them the right to a jury trial." },
+            { year: 1857, diff: 2, q: "Dred Scott v. Sandford ruled that:", options: ["Slaves were citizens", "Slaves were property", "Slavery was illegal", "Scott was free"], ans: "Slaves were property", explanation: "The Supreme Court ruled in Dred Scott v. Sandford that African Americans were not citizens and that the federal government had no authority to prohibit slavery in the territories, effectively declaring the Missouri Compromise unconstitutional." },
+            { year: 1862, diff: 2, q: "The Homestead Act offered:", options: ["Freedom to slaves", "Free land in the West", "Railroad jobs", "Gold mining rights"], ans: "Free land in the West", explanation: "The Homestead Act of 1862 encouraged Western migration by providing settlers 160 acres of public land, which they could keep for a small filing fee if they lived on and improved it for five years." },
             // Level 3
-            { year: 1854, diff: 3, q: "The Kansas-Nebraska Act overturned the:", options: ["Missouri Compromise", "Compromise of 1850", "Wilmot Proviso", "Fugitive Slave Act"], ans: "Missouri Compromise" },
-            { year: 1868, diff: 3, q: "The 14th Amendment guarantees:", options: ["Voting rights", "Birthright Citizenship & Equal Protection", "End of slavery", "Income Tax"], ans: "Birthright Citizenship & Equal Protection" },
-            { year: 1877, diff: 3, q: "Reconstruction ended because of:", options: ["Success of the Freedman's Bureau", "The Compromise of 1877", "The KKK was defeated", "Lincoln's assassination"], ans: "The Compromise of 1877" },
+            { year: 1854, diff: 3, q: "The Kansas-Nebraska Act overturned the:", options: ["Missouri Compromise", "Compromise of 1850", "Wilmot Proviso", "Fugitive Slave Act"], ans: "Missouri Compromise", explanation: "The Kansas-Nebraska Act allowed people in the territories of Kansas and Nebraska to decide for themselves whether or not to allow slavery (popular sovereignty), effectively repealing the Missouri Compromise of 1820." },
+            { year: 1868, diff: 3, q: "The 14th Amendment guarantees:", options: ["Voting rights", "Birthright Citizenship & Equal Protection", "End of slavery", "Income Tax"], ans: "Birthright Citizenship & Equal Protection", explanation: "The 14th Amendment granted citizenship to all persons born or naturalized in the United States (including former slaves) and guaranteed all citizens 'equal protection of the laws'." },
+            { year: 1877, diff: 3, q: "Reconstruction ended because of:", options: ["Success of the Freedman's Bureau", "The Compromise of 1877", "The KKK was defeated", "Lincoln's assassination"], ans: "The Compromise of 1877", explanation: "The Compromise of 1877 was an informal deal that settled the disputed 1876 presidential election; in exchange for Rutherford B. Hayes becoming president, federal troops were withdrawn from the South, effectively ending Reconstruction." },
             // Expanded
             { year: 1845, diff: 2, q: "'Manifest Destiny' was the belief that:", options: ["The US was destined to expand across the continent", "Slavery should be abolished", "The US should isolate itself", "Native Americans should rule"], ans: "The US was destined to expand across the continent" },
             { year: 1865, diff: 3, q: "The 'Black Codes' enacted after the Civil War were intended to:", options: ["Restrict the rights and movement of freedmen", "Grant voting rights", "Provide free land", "Punish Confederate leaders"], ans: "Restrict the rights and movement of freedmen" },
@@ -266,17 +266,17 @@ const curriculum = [
         name: "Industrialization & Gilded Age",
         questions: [
             // Level 1
-            { year: 1869, diff: 1, q: "The Transcontinental Railroad was completed in:", options: ["Utah", "California", "New York", "Texas"], ans: "Utah" },
-            { year: 1886, diff: 1, q: "The Statue of Liberty was a gift from:", options: ["Britain", "France", "Germany", "Spain"], ans: "France" },
-            { year: 1876, diff: 1, q: "Alexander Graham Bell invented the:", options: ["Lightbulb", "Telephone", "Airplane", "Radio"], ans: "Telephone" },
+            { year: 1869, diff: 1, q: "The Transcontinental Railroad was completed in:", options: ["Utah", "California", "New York", "Texas"], ans: "Utah", explanation: "The First Transcontinental Railroad was completed on May 10, 1869, with the driving of the 'Golden Spike' at Promontory Summit, Utah, connecting the Union Pacific and Central Pacific railroads." },
+            { year: 1886, diff: 1, q: "The Statue of Liberty was a gift from:", options: ["Britain", "France", "Germany", "Spain"], ans: "France", explanation: "The Statue of Liberty was a gift from the people of France to the United States to commemorate the alliance between France and the US during the American Revolution." },
+            { year: 1876, diff: 1, q: "Alexander Graham Bell invented the:", options: ["Lightbulb", "Telephone", "Airplane", "Radio"], ans: "Telephone", explanation: "Alexander Graham Bell was awarded the first US patent for the telephone in 1876, revolutionizing communication." },
             // Level 2
-            { year: 1882, diff: 2, q: "The Chinese Exclusion Act was the first law to:", options: ["Restrict immigration by race", "Require passports", "Tax immigrants", "Ban all immigration"], ans: "Restrict immigration by race" },
-            { year: 1890, diff: 2, q: "The Sherman Antitrust Act was designed to:", options: ["Support unions", "Break up monopolies", "Increase tariffs", "Regulate banks"], ans: "Break up monopolies" },
-            { year: 1896, diff: 2, q: "Plessy v. Ferguson established:", options: ["Separate but Equal", "Integration", "Voting Rights", "Labor Rights"], ans: "Separate but Equal" },
+            { year: 1882, diff: 2, q: "The Chinese Exclusion Act was the first law to:", options: ["Restrict immigration by race", "Require passports", "Tax immigrants", "Ban all immigration"], ans: "Restrict immigration by race", explanation: "The Chinese Exclusion Act of 1882 was the first significant law restricting immigration into the United States, specifically suspending Chinese immigration for ten years and declaring Chinese immigrants ineligible for naturalization." },
+            { year: 1890, diff: 2, q: "The Sherman Antitrust Act was designed to:", options: ["Support unions", "Break up monopolies", "Increase tariffs", "Regulate banks"], ans: "Break up monopolies", explanation: "The Sherman Antitrust Act was the first federal act that outlawed monopolistic business practices, though it was initially used more often against labor unions than against trusts." },
+            { year: 1896, diff: 2, q: "Plessy v. Ferguson established:", options: ["Separate but Equal", "Integration", "Voting Rights", "Labor Rights"], ans: "Separate but Equal", explanation: "In Plessy v. Ferguson, the Supreme Court upheld the constitutionality of racial segregation laws for public facilities as long as the segregated facilities were equal in quality, a doctrine known as 'separate but equal'." },
             // Level 3
-            { year: 1887, diff: 3, q: "The Dawes Act aimed to:", options: ["Preserve native culture", "Assimilate Native Americans", "Expand reservations", "Arm tribes"], ans: "Assimilate Native Americans" },
-            { year: 1892, diff: 3, q: "The Populist Party platform (Omaha Platform) called for:", options: ["Gold standard", "Free Silver", "Lower taxes", "Less government"], ans: "Free Silver" },
-            { year: 1894, diff: 3, q: "The Pullman Strike was ended by:", options: ["Negotiation", "Federal Troops", "State Police", "Pinkertons"], ans: "Federal Troops" },
+            { year: 1887, diff: 3, q: "The Dawes Act aimed to:", options: ["Preserve native culture", "Assimilate Native Americans", "Expand reservations", "Arm tribes"], ans: "Assimilate Native Americans", explanation: "The Dawes Act sought to assimilate Native Americans into US society by breaking up tribal lands into individual allotments and encouraging farming, which resulted in a massive loss of Native American land." },
+            { year: 1892, diff: 3, q: "The Populist Party platform (Omaha Platform) called for:", options: ["Gold standard", "Free Silver", "Lower taxes", "Less government"], ans: "Free Silver", explanation: "The Populist Party's Omaha Platform called for the unlimited coinage of silver ('Free Silver') to increase the money supply and help farmers pay off debts, among other reforms like the direct election of senators." },
+            { year: 1894, diff: 3, q: "The Pullman Strike was ended by:", options: ["Negotiation", "Federal Troops", "State Police", "Pinkertons"], ans: "Federal Troops", explanation: "President Grover Cleveland sent federal troops to break the Pullman Strike on the grounds that it was interfering with the delivery of the US mail." },
             // Expanded
             { year: 1880, diff: 2, q: "'Social Darwinism' was used to justify:", options: ["Extreme wealth inequality and imperialism", "Social welfare programs", "Labor unions", "Environmental protection"], ans: "Extreme wealth inequality and imperialism" },
             { year: 1889, diff: 3, q: "The 'Gospel of Wealth' by Andrew Carnegie argued that:", options: ["The wealthy had a duty to use their money for the public good", "The poor were lazy", "Government should tax the rich", "Monopolies were illegal"], ans: "The wealthy had a duty to use their money for the public good" },
@@ -318,17 +318,17 @@ const curriculum = [
         name: "Global Conflict & Depression",
         questions: [
             // Level 1
-            { year: 1914, diff: 1, q: "WWI began in Europe. The US initially was:", options: ["Allied with Britain", "Allied with Germany", "Neutral", "At war with Mexico"], ans: "Neutral" },
-            { year: 1929, diff: 1, q: "The Stock Market Crash led to:", options: ["The Great Depression", "The Roaring 20s", "WWI", "The Cold War"], ans: "The Great Depression" },
-            { year: 1941, diff: 1, q: "The US entered WWII after:", options: ["D-Day", "Pearl Harbor", "Invasion of Poland", "Blitzkrieg"], ans: "Pearl Harbor" },
+            { year: 1914, diff: 1, q: "WWI began in Europe. The US initially was:", options: ["Allied with Britain", "Allied with Germany", "Neutral", "At war with Mexico"], ans: "Neutral", explanation: "When World War I broke out in 1914, President Woodrow Wilson declared the United States neutral, a policy that lasted until 1917." },
+            { year: 1929, diff: 1, q: "The Stock Market Crash led to:", options: ["The Great Depression", "The Roaring 20s", "WWI", "The Cold War"], ans: "The Great Depression", explanation: "The Stock Market Crash of 1929 shattered confidence in the US economy, leading to bank failures and the Great Depression, the worst economic downturn in the history of the industrialized world." },
+            { year: 1941, diff: 1, q: "The US entered WWII after:", options: ["D-Day", "Pearl Harbor", "Invasion of Poland", "Blitzkrieg"], ans: "Pearl Harbor", explanation: "The United States entered World War II following the surprise Japanese attack on the US naval base at Pearl Harbor, Hawaii, on December 7, 1941." },
             // Level 2
-            { year: 1898, diff: 2, q: "The Spanish-American War resulted in US acquisition of:", options: ["Cuba", "Philippines, Puerto Rico, Guam", "Hawaii", "Alaska"], ans: "Philippines, Puerto Rico, Guam" },
-            { year: 1919, diff: 2, q: "The Senate rejected the Treaty of Versailles because of:", options: ["Reparations", "The League of Nations", "Border changes", "War guilt"], ans: "The League of Nations" },
-            { year: 1933, diff: 2, q: "FDR's plan to fight the Depression was called:", options: ["The Square Deal", "The New Deal", "The Fair Deal", "The Great Society"], ans: "The New Deal" },
+            { year: 1898, diff: 2, q: "The Spanish-American War resulted in US acquisition of:", options: ["Cuba", "Philippines, Puerto Rico, Guam", "Hawaii", "Alaska"], ans: "Philippines, Puerto Rico, Guam", explanation: "The Treaty of Paris (1898) ending the Spanish-American War gave the US control of the Philippines, Puerto Rico, and Guam, marking the emergence of the US as a global imperial power." },
+            { year: 1919, diff: 2, q: "The Senate rejected the Treaty of Versailles because of:", options: ["Reparations", "The League of Nations", "Border changes", "War guilt"], ans: "The League of Nations", explanation: "The US Senate rejected the Treaty of Versailles primarily due to concerns that joining the League of Nations would compromise American sovereignty and drag the US into future European conflicts." },
+            { year: 1933, diff: 2, q: "FDR's plan to fight the Depression was called:", options: ["The Square Deal", "The New Deal", "The Fair Deal", "The Great Society"], ans: "The New Deal", explanation: "Franklin D. Roosevelt's New Deal was a series of programs, public work projects, financial reforms, and regulations enacted between 1933 and 1939 to provide relief, recovery, and reform during the Great Depression." },
             // Level 3
-            { year: 1904, diff: 3, q: "The Roosevelt Corollary to the Monroe Doctrine claimed US right to:", options: ["Intervene in Latin America", "Annex Canada", "Trade with China", "Ignore Europe"], ans: "Intervene in Latin America" },
-            { year: 1919, diff: 3, q: "Schenck v. US ruled that speech could be limited if it presented:", options: ["A clear and present danger", "False information", "Political dissent", "Religious bias"], ans: "A clear and present danger" },
-            { year: 1944, diff: 3, q: "Korematsu v. US upheld the constitutionality of:", options: ["The Draft", "Japanese Internment", "Rationing", "Censorship"], ans: "Japanese Internment" },
+            { year: 1904, diff: 3, q: "The Roosevelt Corollary to the Monroe Doctrine claimed US right to:", options: ["Intervene in Latin America", "Annex Canada", "Trade with China", "Ignore Europe"], ans: "Intervene in Latin America", explanation: "The Roosevelt Corollary asserted that the United States had the right to intervene in the affairs of Latin American nations to maintain stability and prevent European intervention, effectively making the US the 'policeman' of the Western Hemisphere." },
+            { year: 1919, diff: 3, q: "Schenck v. US ruled that speech could be limited if it presented:", options: ["A clear and present danger", "False information", "Political dissent", "Religious bias"], ans: "A clear and present danger", explanation: "In Schenck v. United States, the Supreme Court ruled that freedom of speech could be restricted if the words spoken or printed represented to society a 'clear and present danger', such as during wartime." },
+            { year: 1944, diff: 3, q: "Korematsu v. US upheld the constitutionality of:", options: ["The Draft", "Japanese Internment", "Rationing", "Censorship"], ans: "Japanese Internment", explanation: "In Korematsu v. United States, the Supreme Court upheld the internment of Japanese Americans during World War II as a 'military necessity', a decision that has since been widely condemned." },
             // Expanded
             { year: 1906, diff: 2, q: "The 'Muckrakers' were:", options: ["Journalists who exposed corruption and social problems", "Corrupt politicians", "Union leaders", "Farmers"], ans: "Journalists who exposed corruption and social problems" },
             { year: 1916, diff: 3, q: "The 'Great Migration' during WWI refers to:", options: ["The movement of African Americans from the South to the North", "Immigration from Europe", "Westward expansion", "Soldiers going to war"], ans: "The movement of African Americans from the South to the North" },
@@ -371,17 +371,17 @@ const curriculum = [
         name: "Cold War & Civil Rights",
         questions: [
             // Level 1
-            { year: 1969, diff: 1, q: "The first man on the moon was:", options: ["Glenn", "Armstrong", "Aldrin", "Gagarin"], ans: "Armstrong" },
-            { year: 1963, diff: 1, q: "MLK Jr. gave his 'I Have a Dream' speech in:", options: ["Selma", "Birmingham", "Washington DC", "Atlanta"], ans: "Washington DC" },
-            { year: 1962, diff: 1, q: "The Cuban Missile Crisis was a standoff between US and:", options: ["China", "USSR", "Cuba", "Vietnam"], ans: "USSR" },
+            { year: 1969, diff: 1, q: "The first man on the moon was:", options: ["Glenn", "Armstrong", "Aldrin", "Gagarin"], ans: "Armstrong", explanation: "Neil Armstrong became the first person to walk on the Moon on July 20, 1969, during the Apollo 11 mission, famously declaring, 'That's one small step for [a] man, one giant leap for mankind.'" },
+            { year: 1963, diff: 1, q: "MLK Jr. gave his 'I Have a Dream' speech in:", options: ["Selma", "Birmingham", "Washington DC", "Atlanta"], ans: "Washington DC", explanation: "Martin Luther King Jr. delivered his iconic 'I Have a Dream' speech on the steps of the Lincoln Memorial during the March on Washington for Jobs and Freedom in 1963." },
+            { year: 1962, diff: 1, q: "The Cuban Missile Crisis was a standoff between US and:", options: ["China", "USSR", "Cuba", "Vietnam"], ans: "USSR", explanation: "The Cuban Missile Crisis was a 13-day confrontation between the United States and the Soviet Union concerning American ballistic missile deployment in Italy and Turkey with consequent Soviet ballistic missile deployment in Cuba." },
             // Level 2
-            { year: 1947, diff: 2, q: "The policy of 'Containment' was first articulated in:", options: ["The Marshall Plan", "The Truman Doctrine", "NATO", "The UN Charter"], ans: "The Truman Doctrine" },
-            { year: 1954, diff: 2, q: "Brown v. Board of Education declared that:", options: ["Segregation is legal", "Separate is inherently unequal", "Schools must be funded equally", "Busing is mandatory"], ans: "Separate is inherently unequal" },
-            { year: 1964, diff: 2, q: "The Gulf of Tonkin Resolution gave the President power to:", options: ["Declare war", "Escalate war in Vietnam", "Negotiate peace", "Use nuclear weapons"], ans: "Escalate war in Vietnam" },
+            { year: 1947, diff: 2, q: "The policy of 'Containment' was first articulated in:", options: ["The Marshall Plan", "The Truman Doctrine", "NATO", "The UN Charter"], ans: "The Truman Doctrine", explanation: "The Truman Doctrine established the policy of containment, pledging US support for democracies against authoritarian threats (specifically communism), marking the start of the Cold War." },
+            { year: 1954, diff: 2, q: "Brown v. Board of Education declared that:", options: ["Segregation is legal", "Separate is inherently unequal", "Schools must be funded equally", "Busing is mandatory"], ans: "Separate is inherently unequal", explanation: "In Brown v. Board of Education, the Supreme Court unanimously ruled that racial segregation in public schools was unconstitutional, overturning the 'separate but equal' doctrine established in Plessy v. Ferguson." },
+            { year: 1964, diff: 2, q: "The Gulf of Tonkin Resolution gave the President power to:", options: ["Declare war", "Escalate war in Vietnam", "Negotiate peace", "Use nuclear weapons"], ans: "Escalate war in Vietnam", explanation: "The Gulf of Tonkin Resolution authorized President Lyndon B. Johnson to take all necessary measures to repel any armed attack against the forces of the United States and to prevent further aggression in Vietnam." },
             // Level 3
-            { year: 1950, diff: 3, q: "McCarthyism refers to:", options: ["Anti-Communist hysteria", "Civil Rights activism", "Economic growth", "Suburbanization"], ans: "Anti-Communist hysteria" },
-            { year: 1968, diff: 3, q: "The Tet Offensive was a turning point because:", options: ["US won militarily", "It turned US public opinion against the war", "North Vietnam surrendered", "China entered the war"], ans: "It turned US public opinion against the war" },
-            { year: 1973, diff: 3, q: "The War Powers Act was passed to:", options: ["Limit Presidential power to make war", "Increase military spending", "End the draft", "Support Israel"], ans: "Limit Presidential power to make war" },
+            { year: 1950, diff: 3, q: "McCarthyism refers to:", options: ["Anti-Communist hysteria", "Civil Rights activism", "Economic growth", "Suburbanization"], ans: "Anti-Communist hysteria", explanation: "McCarthyism refers to the practice of making accusations of subversion or treason without proper regard for evidence, characterized by the anti-Communist crusade led by Senator Joseph McCarthy in the 1950s." },
+            { year: 1968, diff: 3, q: "The Tet Offensive was a turning point because:", options: ["US won militarily", "It turned US public opinion against the war", "North Vietnam surrendered", "China entered the war"], ans: "It turned US public opinion against the war", explanation: "Although the Tet Offensive was a military defeat for the Viet Cong, the scale and surprise of the attacks shocked the American public and fueled anti-war sentiment, marking a turning point in public support for the Vietnam War." },
+            { year: 1973, diff: 3, q: "The War Powers Act was passed to:", options: ["Limit Presidential power to make war", "Increase military spending", "End the draft", "Support Israel"], ans: "Limit Presidential power to make war", explanation: "The War Powers Resolution (or Act) was a federal law intended to check the president's power to commit the United States to an armed conflict without the consent of the U.S. Congress." },
             // Expanded
             { year: 1948, diff: 2, q: "The 'Marshall Plan' was designed to:", options: ["Rebuild Europe and prevent the spread of Communism", "Punish Germany", "Create the UN", "Start the Korean War"], ans: "Rebuild Europe and prevent the spread of Communism" },
             { year: 1965, diff: 3, q: "The 'Great Society' programs under LBJ aimed to:", options: ["Eliminate poverty and racial injustice", "Win the Vietnam War", "Cut taxes", "Explore space"], ans: "Eliminate poverty and racial injustice" },
@@ -424,17 +424,17 @@ const curriculum = [
         name: "Modern America",
         questions: [
             // Level 1
-            { year: 2001, diff: 1, q: "On 9/11, terrorists attacked the World Trade Center and:", options: ["The White House", "The Pentagon", "The Capitol", "The Statue of Liberty"], ans: "The Pentagon" },
-            { year: 2008, diff: 1, q: "The first African American President was:", options: ["Jackson", "Obama", "King", "Powell"], ans: "Obama" },
-            { year: 1989, diff: 1, q: "The symbol of the Cold War that fell in 1989 was:", options: ["Iron Curtain", "Berlin Wall", "Kremlin", "Great Wall"], ans: "Berlin Wall" },
+            { year: 2001, diff: 1, q: "On 9/11, terrorists attacked the World Trade Center and:", options: ["The White House", "The Pentagon", "The Capitol", "The Statue of Liberty"], ans: "The Pentagon", explanation: "On September 11, 2001, al-Qaeda terrorists hijacked four planes; two hit the Twin Towers in NYC, one hit the Pentagon in Arlington, Virginia, and the fourth crashed in Pennsylvania." },
+            { year: 2008, diff: 1, q: "The first African American President was:", options: ["Jackson", "Obama", "King", "Powell"], ans: "Obama", explanation: "Barack Obama made history in 2008 when he was elected as the 44th President of the United States, becoming the first African American to hold the office." },
+            { year: 1989, diff: 1, q: "The symbol of the Cold War that fell in 1989 was:", options: ["Iron Curtain", "Berlin Wall", "Kremlin", "Great Wall"], ans: "Berlin Wall", explanation: "The fall of the Berlin Wall in November 1989 symbolized the collapse of communism in Eastern Europe and the beginning of the end of the Cold War." },
             // Level 2
-            { year: 1980, diff: 2, q: "Reaganomics was based on the theory of:", options: ["Keynesianism", "Supply-side economics", "Socialism", "Protectionism"], ans: "Supply-side economics" },
-            { year: 1991, diff: 2, q: "Operation Desert Storm was launched to liberate:", options: ["Iraq", "Kuwait", "Iran", "Saudi Arabia"], ans: "Kuwait" },
-            { year: 1994, diff: 2, q: "NAFTA was a trade agreement between US, Canada, and:", options: ["China", "Mexico", "Europe", "Japan"], ans: "Mexico" },
+            { year: 1980, diff: 2, q: "Reaganomics was based on the theory of:", options: ["Keynesianism", "Supply-side economics", "Socialism", "Protectionism"], ans: "Supply-side economics", explanation: "Reaganomics, or supply-side economics, advocated for tax cuts and deregulation to stimulate economic growth, based on the theory that benefits would 'trickle down' to the rest of the economy." },
+            { year: 1991, diff: 2, q: "Operation Desert Storm was launched to liberate:", options: ["Iraq", "Kuwait", "Iran", "Saudi Arabia"], ans: "Kuwait", explanation: "Operation Desert Storm was a US-led coalition military operation to expel occupying Iraqi forces from Kuwait, which Iraq had invaded and annexed in 1990." },
+            { year: 1994, diff: 2, q: "NAFTA was a trade agreement between US, Canada, and:", options: ["China", "Mexico", "Europe", "Japan"], ans: "Mexico", explanation: "The North American Free Trade Agreement (NAFTA) created a trilateral trade bloc in North America, eliminating most tariffs on trade between the US, Canada, and Mexico." },
             // Level 3
-            { year: 2001, diff: 3, q: "The USA PATRIOT Act raised concerns about:", options: ["National Security", "Civil Liberties/Privacy", "Immigration", "Taxes"], ans: "Civil Liberties/Privacy" },
-            { year: 2010, diff: 3, q: "The Affordable Care Act (Obamacare) aimed to:", options: ["Nationalize hospitals", "Expand health insurance coverage", "Reduce doctor pay", "End Medicare"], ans: "Expand health insurance coverage" },
-            { year: 2000, diff: 3, q: "Bush v. Gore was resolved by:", options: ["Congress", "The Supreme Court", "A recount", "Coin toss"], ans: "The Supreme Court" },
+            { year: 2001, diff: 3, q: "The USA PATRIOT Act raised concerns about:", options: ["National Security", "Civil Liberties/Privacy", "Immigration", "Taxes"], ans: "Civil Liberties/Privacy", explanation: "Passed in the wake of 9/11, the USA PATRIOT Act expanded law enforcement's surveillance powers, raising significant concerns about the violation of civil liberties and privacy rights." },
+            { year: 2010, diff: 3, q: "The Affordable Care Act (Obamacare) aimed to:", options: ["Nationalize hospitals", "Expand health insurance coverage", "Reduce doctor pay", "End Medicare"], ans: "Expand health insurance coverage", explanation: "The Affordable Care Act (ACA) was enacted to increase the quality and affordability of health insurance, lower the uninsured rate, and reduce the costs of healthcare." },
+            { year: 2000, diff: 3, q: "Bush v. Gore was resolved by:", options: ["Congress", "The Supreme Court", "A recount", "Coin toss"], ans: "The Supreme Court", explanation: "The 2000 presidential election between George W. Bush and Al Gore was effectively decided by the Supreme Court case Bush v. Gore, which halted the recount in Florida." },
             // Expanded
             { year: 1994, diff: 2, q: "The 'Contract with America' (1994) was a platform for:", options: ["The Republican Party", "The Democratic Party", "The Green Party", "The Reform Party"], ans: "The Republican Party" },
             { year: 1999, diff: 3, q: "The 'Dot-com bubble' of the late 1990s was driven by:", options: ["Speculation in internet-based companies", "Real estate", "Oil prices", "Gold"], ans: "Speculation in internet-based companies" },
@@ -513,6 +513,56 @@ const presidentialTrivia = [
         question: "Who was the president during the War of 1812?",
         answer: "James Madison",
         options: ["James Madison", "James Monroe", "Thomas Jefferson", "John Quincy Adams"]
+    },
+    {
+        question: "Who was the only president to serve as Chief Justice?",
+        answer: "William Howard Taft",
+        options: ["William Howard Taft", "John Adams", "Franklin D. Roosevelt", "Woodrow Wilson"]
+    },
+    {
+        question: "Which president signed the Interstate Highway Act?",
+        answer: "Dwight D. Eisenhower",
+        options: ["Dwight D. Eisenhower", "Harry S. Truman", "John F. Kennedy", "Lyndon B. Johnson"]
+    },
+    {
+        question: "Who was the first president to be impeached?",
+        answer: "Andrew Johnson",
+        options: ["Andrew Johnson", "Bill Clinton", "Richard Nixon", "Donald Trump"]
+    },
+    {
+        question: "Which president was a former Hollywood actor?",
+        answer: "Ronald Reagan",
+        options: ["Ronald Reagan", "Donald Trump", "John F. Kennedy", "Jimmy Carter"]
+    },
+    {
+        question: "Who was known as the 'Rough Rider'?",
+        answer: "Theodore Roosevelt",
+        options: ["Theodore Roosevelt", "Andrew Jackson", "Ulysses S. Grant", "Zachary Taylor"]
+    },
+    {
+        question: "Which president was known as 'Silent Cal'?",
+        answer: "Calvin Coolidge",
+        options: ["Calvin Coolidge", "Herbert Hoover", "Warren G. Harding", "Woodrow Wilson"]
+    },
+    {
+        question: "Who was the first president born in the United States?",
+        answer: "Martin Van Buren",
+        options: ["Martin Van Buren", "Andrew Jackson", "George Washington", "Thomas Jefferson"]
+    },
+    {
+        question: "Which president's administration purchased Alaska?",
+        answer: "Andrew Johnson",
+        options: ["Andrew Johnson", "Ulysses S. Grant", "Abraham Lincoln", "James Buchanan"]
+    },
+    {
+        question: "Who was the president during the Mexican-American War?",
+        answer: "James K. Polk",
+        options: ["James K. Polk", "Zachary Taylor", "John Tyler", "Andrew Jackson"]
+    },
+    {
+        question: "Which president issued the Monroe Doctrine?",
+        answer: "James Monroe",
+        options: ["James Monroe", "John Quincy Adams", "James Madison", "Andrew Jackson"]
     }
 ];
 

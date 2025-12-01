@@ -372,7 +372,15 @@ function showOptions(q) {
     state.isProcessing = false;
     optionsContainer.innerHTML = '';
 
-    const shuffledOptions = shuffleArray([...q.options]);
+    let shuffledOptions = shuffleArray([...q.options]);
+
+    // Fix: Ensure "All of the above" is always last
+    const allAboveIndex = shuffledOptions.findIndex(opt => opt.toLowerCase() === "all of the above");
+    if (allAboveIndex !== -1) {
+        const allAbove = shuffledOptions.splice(allAboveIndex, 1)[0];
+        shuffledOptions.push(allAbove);
+    }
+
     shuffledOptions.forEach(opt => {
         const btn = document.createElement('button');
         btn.textContent = opt;
@@ -686,8 +694,14 @@ function showExplanation(q, selectedAnswer) {
     explanationText.innerHTML = `You selected: <span style="color: var(--danger-color)">${selectedAnswer}</span><br><br>
                                  <span style="color: var(--alert-color)">INCORRECT ANALYSIS</span>`;
 
-    const hint = periodHints[state.currentPeriod] || "Review the historical timeline.";
-    contextText.innerHTML = `<strong>Historical Context (${q.year}):</strong><br>${hint}<br><br><em>Consider the social, political, and economic conditions of this era.</em>`;
+    let contextContent = "";
+    if (q.explanation) {
+        contextContent = `<strong>Analysis:</strong><br>${q.explanation}`;
+    } else {
+        const hint = periodHints[state.currentPeriod] || "Review the historical timeline.";
+        contextContent = `<strong>Historical Context (${q.year}):</strong><br>${hint}`;
+    }
+    contextText.innerHTML = `${contextContent}<br><br><em>Consider the social, political, and economic conditions of this era.</em>`;
 
     modal.classList.remove('hidden');
 }
