@@ -14,7 +14,8 @@ const state = {
     hasWarpedInPeriod: false,
     usedQuestions: new Set(), // Track asked questions by text
     isProcessing: false,
-    singleUnitMode: false
+    singleUnitMode: false,
+    usedStimuli: new Set()
 };
 
 const DIFFICULTY_LABELS = {
@@ -481,13 +482,35 @@ function handleProgression() {
 
         proceedToNextPeriod();
     } else {
-        // Check for Stimulus Trigger (e.g., at Question 5)
-        // Only if we have a stimulus for this period
-        if (state.questionsAnsweredInPeriod === 5) {
-            const periodStimulus = stimulusData.find(s => s.period === state.currentPeriod);
-            if (periodStimulus) {
+        // Check for Stimulus Trigger
+        // Trigger at Question 5 (Standard) AND Question 15 (Single Unit Bonus)
+        let triggerStimulus = false;
+        if (state.questionsAnsweredInPeriod === 5) triggerStimulus = true;
+        if (state.singleUnitMode && state.questionsAnsweredInPeriod === 15) triggerStimulus = true;
+
+        if (triggerStimulus) {
+            // Find all stimuli for this period
+            const periodStimuli = stimulusData.filter(s => s.period === state.currentPeriod);
+
+            if (periodStimuli.length > 0) {
+                // Filter out used stimuli to avoid repetition
+                if (!state.usedStimuli) state.usedStimuli = new Set();
+
+                let availableStimuli = periodStimuli.filter(s => !state.usedStimuli.has(s.id));
+
+                // If all used, reset pool for this period (or just pick from all)
+                if (availableStimuli.length === 0) {
+                    availableStimuli = periodStimuli;
+                }
+
+                // Pick random
+                const randomStimulus = availableStimuli[Math.floor(Math.random() * availableStimuli.length)];
+
+                // Mark as used
+                state.usedStimuli.add(randomStimulus.id);
+
                 setTimeout(() => {
-                    initStimulusMode(periodStimulus);
+                    initStimulusMode(randomStimulus);
                 }, 500);
                 return;
             }
