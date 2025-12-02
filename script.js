@@ -98,7 +98,16 @@ playerNameInput.addEventListener('focus', () => {
 });
 
 function startGame() {
+    const startBtn = document.getElementById('start-btn');
+    if (startBtn.disabled) return; // Prevent double clicks
+    startBtn.disabled = true;
+    startBtn.textContent = "INITIALIZING...";
+
     const name = playerNameInput.value.trim().toUpperCase();
+
+    // Reset State completely before starting
+    resetGameState();
+
     if (name.length > 0) {
         state.playerName = name;
     }
@@ -124,6 +133,27 @@ function startGame() {
     // Init Audio
     soundManager.init();
     soundManager.startBGM();
+
+    // Re-enable button after a delay (just in case they come back to menu)
+    setTimeout(() => {
+        startBtn.disabled = false;
+        startBtn.textContent = "INITIATE SEQUENCE";
+    }, 2000);
+}
+
+function resetGameState() {
+    state.score = 0;
+    state.stability = 100;
+    state.questionsAnsweredInPeriod = 0;
+    state.totalQuestionsAnswered = 0;
+    state.streak = 0;
+    state.lifelines = 1;
+    state.hasWarpedInPeriod = false;
+    state.usedQuestions.clear();
+    state.isProcessing = false;
+    state.usedStimuli.clear();
+    // Note: difficulty is reset to 1 in state definition, but let's ensure it
+    state.difficulty = 1;
 }
 
 function loadHighScore() {
@@ -156,7 +186,12 @@ function loadHighScore() {
 // Load immediately
 loadHighScore();
 
+let gameInitRunning = false;
+
 function initGame() {
+    if (gameInitRunning) return;
+    gameInitRunning = true;
+
     try {
         console.log("Starting initialization...");
         // Update status with player name
@@ -167,7 +202,10 @@ function initGame() {
         // Safety Timeout: If not loaded in 5 seconds, force load
         const safetyTimeout = setTimeout(() => {
             console.warn("Initialization took too long. Forcing start.");
-            if (!questionArea.classList.contains('hidden')) return; // Already loaded
+            if (!questionArea.classList.contains('hidden')) {
+                gameInitRunning = false;
+                return; // Already loaded
+            }
 
             messageArea.innerHTML = `<p style="color: var(--alert-color)">INITIALIZATION LAG DETECTED.</p><p>BYPASSING CHRONO-VISOR...</p>`;
             messageArea.classList.remove('hidden'); // Ensure visible
@@ -175,6 +213,7 @@ function initGame() {
                 messageArea.classList.add('hidden');
                 questionArea.classList.remove('hidden');
                 loadQuestion();
+                gameInitRunning = false;
             }, 1000);
         }, 5000);
 
@@ -185,10 +224,12 @@ function initGame() {
             if (questionArea.classList.contains('hidden')) {
                 loadQuestion();
             }
+            gameInitRunning = false;
         }, 1000);
 
     } catch (e) {
         console.error("Init Game Error:", e);
+        gameInitRunning = false;
         throw e; // Re-throw to trigger window.onerror
     }
 }
