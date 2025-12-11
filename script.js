@@ -157,9 +157,9 @@ function resetGameState() {
 }
 
 function loadHighScore() {
-    const saved = localStorage.getItem('chronoTrailHighScore');
-    if (saved) {
-        try {
+    try {
+        const saved = localStorage.getItem('chronoTrailHighScore');
+        if (saved) {
             // Try to parse as JSON object { score, name }
             const parsed = JSON.parse(saved);
             if (typeof parsed === 'object' && parsed !== null) {
@@ -170,11 +170,9 @@ function loadHighScore() {
                 state.highScore = parseInt(saved, 10);
                 state.highScoreName = "LEGACY";
             }
-        } catch (e) {
-            // Fallback for legacy plain number
-            state.highScore = parseInt(saved, 10);
-            state.highScoreName = "LEGACY";
         }
+    } catch (e) {
+        console.warn("Could not load high score (localStorage blocked?):", e);
     }
     // Update start screen display if it exists
     const startHighScore = document.getElementById('start-high-score');
@@ -303,765 +301,678 @@ function loadQuestion() {
     // 2. If we are at question 14 (index 13) and it hasn't happened, FORCE it.
     // 3. Otherwise, random chance (20%).
 
+    // Time Warp Logic (Once per Period)
+    // 1. If already happened this period, skip.
+    // 2. If we are at question 14 (index 13) and it hasn't happened, FORCE it.
+    // 3. Otherwise, random chance (20%).
+
     if (!state.hasWarpedInPeriod) {
-        // This logic is called when a new question is about to be loaded.
-        // state.questionsAnsweredInPeriod will reflect the number of questions *already* answered in the current period.
-        // So, if state.questionsAnsweredInPeriod is 8, we are about to load the 9th question.
-        // If state.questionsAnsweredInPeriod is 9, we are about to load the 10th question.
-
         const questionLimit = state.singleUnitMode ? 25 : 15;
+        let triggerWarp = false;
 
-        if (state.questionsAnsweredInPeriod < questionLimit) { // Only trigger if still in the current period
-            let triggerWarp = false;
-
-            const presidentialTrivia = [
-                {
-                    question: "Which President served two non-consecutive terms?",
-                    options: ["Grover Cleveland", "Theodore Roosevelt", "Franklin D. Roosevelt", "Woodrow Wilson"],
-                    answer: "Grover Cleveland"
-                },
-                {
-                    question: "Who was the only President to resign from office?",
-                    options: ["Richard Nixon", "Andrew Johnson", "Bill Clinton", "Herbert Hoover"],
-                    answer: "Richard Nixon"
-                },
-                {
-                    question: "Which President signed the Alien and Sedition Acts?",
-                    options: ["John Adams", "Thomas Jefferson", "George Washington", "James Madison"],
-                    answer: "John Adams"
-                },
-                {
-                    question: "Who was the first President born as a US citizen?",
-                    options: ["Martin Van Buren", "Andrew Jackson", "John Quincy Adams", "William Henry Harrison"],
-                    answer: "Martin Van Buren"
-                },
-                {
-                    question: "Which President was known as 'Old Hickory'?",
-                    options: ["Andrew Jackson", "Zachary Taylor", "William Henry Harrison", "Ulysses S. Grant"],
-                    answer: "Andrew Jackson"
-                },
-                {
-                    question: "Who was the only President to serve as Chief Justice of the Supreme Court?",
-                    options: ["William Howard Taft", "John Quincy Adams", "James Madison", "Lyndon B. Johnson"],
-                    answer: "William Howard Taft"
-                },
-                {
-                    question: "Which President issued the Emancipation Proclamation?",
-                    options: ["Abraham Lincoln", "Andrew Johnson", "Ulysses S. Grant", "James Buchanan"],
-                    answer: "Abraham Lincoln"
-                },
-                {
-                    question: "Who was President during the War of 1812?",
-                    options: ["James Madison", "Thomas Jefferson", "James Monroe", "John Quincy Adams"],
-                    answer: "James Madison"
-                },
-                {
-                    question: "Which President is associated with the 'Corrupt Bargain'?",
-                    options: ["John Quincy Adams", "Andrew Jackson", "Henry Clay", "William Crawford"],
-                    answer: "John Quincy Adams"
-                },
-                {
-                    question: "Who was the first President to be impeached?",
-                    options: ["Andrew Johnson", "Bill Clinton", "Richard Nixon", "Donald Trump"],
-                    answer: "Andrew Johnson"
-                },
-                {
-                    question: "Which President purchased the Louisiana Territory?",
-                    options: ["Thomas Jefferson", "James Madison", "John Adams", "James Monroe"],
-                    answer: "Thomas Jefferson"
-                },
-                {
-                    question: "Who was the President during the Mexican-American War?",
-                    options: ["James K. Polk", "Zachary Taylor", "John Tyler", "Millard Fillmore"],
-                    answer: "James K. Polk"
-                },
-                {
-                    question: "Which President's doctrine warned European powers against colonization in the Americas?",
-                    options: ["James Monroe", "John Quincy Adams", "George Washington", "Theodore Roosevelt"],
-                    answer: "James Monroe"
-                },
-                {
-                    question: "Who was the only President to be elected unanimously?",
-                    options: ["George Washington", "Thomas Jefferson", "Abraham Lincoln", "FDR"],
-                    answer: "George Washington"
-                },
-                {
-                    question: "Which President signed the Civil Rights Act of 1964?",
-                    options: ["Lyndon B. Johnson", "John F. Kennedy", "Dwight D. Eisenhower", "Richard Nixon"],
-                    answer: "Lyndon B. Johnson"
-                },
-                {
-                    question: "Who was the youngest elected President?",
-                    options: ["John F. Kennedy", "Theodore Roosevelt", "Bill Clinton", "Barack Obama"],
-                    answer: "John F. Kennedy"
-                },
-                {
-                    question: "Which President was a former actor?",
-                    options: ["Ronald Reagan", "Donald Trump", "Jimmy Carter", "Gerald Ford"],
-                    answer: "Ronald Reagan"
-                },
-                {
-                    question: "Who was President during the stock market crash of 1929?",
-                    options: ["Herbert Hoover", "Calvin Coolidge", "Franklin D. Roosevelt", "Warren G. Harding"],
-                    answer: "Herbert Hoover"
-                },
-                {
-                    question: "Which President ordered the atomic bombings of Hiroshima and Nagasaki?",
-                    options: ["Harry S. Truman", "Franklin D. Roosevelt", "Dwight D. Eisenhower", "John F. Kennedy"],
-                    answer: "Harry S. Truman"
-                },
-                {
-                    question: "Who was the first President to live in the White House?",
-                    options: ["John Adams", "George Washington", "Thomas Jefferson", "James Madison"],
-                    answer: "John Adams"
-                }
-            ];
-            // Clear options while typing
-            optionsContainer.innerHTML = '';
-            typeWriter();
+        // Force at the end of period if it hasn't happened
+        if (state.questionsAnsweredInPeriod === questionLimit - 2) {
+            triggerWarp = true;
+        }
+        // Random chance (20%) if we are mid-period (e.g., after q3)
+        else if (state.questionsAnsweredInPeriod > 3 && Math.random() < 0.2) {
+            triggerWarp = true;
         }
 
-        // Time Capsule Logic (Random Chance: 5%)
-        if (Math.random() < 0.05 && state.stability < 100) {
+        if (triggerWarp) {
+            state.hasWarpedInPeriod = true;
             setTimeout(() => {
-                initTimeCapsule();
-            }, 1500);
+                initTimeWarp();
+            }, 1000);
+            return; // STOP here, do not load normal question
+        }
+    }
+
+    // Time Capsule Logic (Random Chance: 5%)
+    if (Math.random() < 0.05 && state.stability < 100) {
+        setTimeout(() => {
+            initTimeCapsule();
+        }, 1500);
+        return;
+    }
+
+    // Get current period data
+    const periodData = curriculum.find(p => p.period === state.currentPeriod);
+
+    // Filter questions by current difficulty AND not used
+    let potentialQuestions = periodData.questions.filter(q =>
+        q.diff === state.difficulty && !state.usedQuestions.has(q.q)
+    );
+
+    // If no questions of exact difficulty, fallback to any unused in period
+    if (potentialQuestions.length === 0) {
+        potentialQuestions = periodData.questions.filter(q => !state.usedQuestions.has(q.q));
+    }
+
+    // If STILL no questions (exhausted period), clear used for this period or allow repeats
+    // For now, let's just reset the used questions for this period to avoid soft lock
+    if (potentialQuestions.length === 0) {
+        console.warn("Questions exhausted for period " + state.currentPeriod + ". Resetting used list for this period.");
+        // We can't easily remove just this period's questions from the Set without iterating.
+        // Simpler approach: Allow repeats from full pool
+        potentialQuestions = periodData.questions;
+    }
+
+    // Pick a random question from the potential ones
+    const selectedQ = potentialQuestions[Math.floor(Math.random() * potentialQuestions.length)];
+
+    // Mark as used
+    state.usedQuestions.add(selectedQ.q);
+    try {
+        localStorage.setItem('chronoTrailUsedQuestions', JSON.stringify([...state.usedQuestions]));
+    } catch (e) {
+        console.warn("Could not save used questions (localStorage blocked?):", e);
+    }
+
+    // Set current questions
+    state.currentQuestions = [selectedQ]; // Just one for now, logic was for multiple but we do one at a time
+
+    // Display
+    state.currentYear = selectedQ.year;
+    updateDisplay();
+
+    displayQuestionText(selectedQ);
+}
+
+function displayQuestionText(q) {
+    // Typewriter effect for question
+    questionText.innerHTML = `<span class="period-tag">[P${state.currentPeriod}]</span><br>`;
+    questionText.classList.add('typing');
+
+    let i = 0;
+    const text = q.q;
+    const speed = 30; // ms per char
+
+    function typeWriter() {
+        if (i < text.length) {
+            questionText.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+        } else {
+            questionText.classList.remove('typing');
+            showOptions(q);
+        }
+    }
+
+    // Clear options while typing
+    optionsContainer.innerHTML = '';
+    typeWriter();
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function showOptions(q) {
+    state.isProcessing = false;
+    optionsContainer.innerHTML = '';
+
+    let shuffledOptions = shuffleArray([...q.options]);
+
+    // Fix: Ensure "All of the above" is always last
+    const allAboveIndex = shuffledOptions.findIndex(opt => opt.toLowerCase() === "all of the above");
+    if (allAboveIndex !== -1) {
+        const allAbove = shuffledOptions.splice(allAboveIndex, 1)[0];
+        shuffledOptions.push(allAbove);
+    }
+
+    shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => handleAnswer(opt, q);
+        optionsContainer.appendChild(btn);
+    });
+
+    // Add Lifeline Button if available
+    if (state.lifelines > 0) {
+        const lifelineBtn = document.createElement('button');
+        lifelineBtn.textContent = "LIFELINE: 50/50";
+        lifelineBtn.style.borderColor = "var(--alert-color)";
+        lifelineBtn.style.color = "var(--alert-color)";
+        lifelineBtn.style.marginTop = "20px";
+        lifelineBtn.onclick = () => useLifeline(q, lifelineBtn);
+        optionsContainer.appendChild(lifelineBtn);
+    }
+}
+
+function useLifeline(q, btn) {
+    if (state.lifelines <= 0) return;
+
+    state.lifelines--;
+    btn.remove();
+
+    // Find incorrect options
+    const incorrectOptions = q.options.filter(opt => opt !== q.ans);
+
+    // Randomly select 2 incorrect options to remove (if there are 4 options)
+    // If there are 4 options, remove 2. If 3, remove 1? Standard is remove 2 from 4.
+    // Let's just keep the correct answer and one random incorrect answer.
+    const randomIncorrect = incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)];
+    const keptOptions = [q.ans, randomIncorrect];
+
+    // Filter buttons
+    const buttons = optionsContainer.querySelectorAll('button');
+    buttons.forEach(b => {
+        if (!keptOptions.includes(b.textContent)) {
+            b.style.display = 'none';
+        }
+    });
+
+    alert("ARCHIVE DATA ACCESSED. PROBABILITY RECALCULATED.");
+}
+
+function handleAnswer(selected, q) {
+    if (state.isProcessing) return;
+    state.isProcessing = true;
+
+    if (selected === q.ans) {
+        // Correct
+        state.streak++;
+        const streakMultiplier = 1 + (state.streak * 0.1); // 10% bonus per streak
+        state.score += Math.floor(100 * state.difficulty * streakMultiplier);
+
+        // Increase difficulty if not max
+        if (state.difficulty < 3) state.difficulty++;
+
+        // Visual feedback
+        gameContainer.style.boxShadow = "0 0 50px var(--text-color)";
+
+        // Audio feedback
+        soundManager.playCorrect();
+
+        handleProgression();
+
+    } else {
+        // Wrong
+        state.streak = 0;
+        state.stability -= 20;
+
+        // Decrease difficulty if not min
+        if (state.difficulty > 1) state.difficulty--;
+
+        triggerGlitch();
+        soundManager.playWrong();
+
+        // Show Explanation instead of immediate progression
+        showExplanation(q, selected);
+    }
+}
+
+function handleProgression() {
+    state.questionsAnsweredInPeriod++;
+
+    const questionLimit = state.singleUnitMode ? 25 : 15;
+
+    // Check if period is done
+    if (state.questionsAnsweredInPeriod >= questionLimit) {
+        // Check for Boss
+        const currentPeriodData = curriculum.find(p => p.period === state.currentPeriod);
+        if (currentPeriodData.boss) {
+            setTimeout(() => {
+                initBossBattle(currentPeriodData.boss);
+            }, 500);
             return;
         }
 
-        // Get current period data
-        const periodData = curriculum.find(p => p.period === state.currentPeriod);
+        proceedToNextPeriod();
+    } else {
+        // Check for Stimulus Trigger
+        // Trigger at Question 5 (Standard) AND Question 15 (Single Unit Bonus)
+        let triggerStimulus = false;
+        if (state.questionsAnsweredInPeriod === 5) triggerStimulus = true;
+        if (state.singleUnitMode && state.questionsAnsweredInPeriod === 15) triggerStimulus = true;
 
-        // Filter questions by current difficulty AND not used
-        let potentialQuestions = periodData.questions.filter(q =>
-            q.diff === state.difficulty && !state.usedQuestions.has(q.q)
-        );
+        if (triggerStimulus) {
+            // Find all stimuli for this period
+            const periodStimuli = stimulusData.filter(s => s.period === state.currentPeriod);
 
-        // If no questions of exact difficulty, fallback to any unused in period
-        if (potentialQuestions.length === 0) {
-            potentialQuestions = periodData.questions.filter(q => !state.usedQuestions.has(q.q));
-        }
+            if (periodStimuli.length > 0) {
+                // Filter out used stimuli to avoid repetition
+                if (!state.usedStimuli) state.usedStimuli = new Set();
 
-        // If STILL no questions (exhausted period), clear used for this period or allow repeats
-        // For now, let's just reset the used questions for this period to avoid soft lock
-        if (potentialQuestions.length === 0) {
-            console.warn("Questions exhausted for period " + state.currentPeriod + ". Resetting used list for this period.");
-            // We can't easily remove just this period's questions from the Set without iterating.
-            // Simpler approach: Allow repeats from full pool
-            potentialQuestions = periodData.questions;
-        }
+                let availableStimuli = periodStimuli.filter(s => !state.usedStimuli.has(s.id));
 
-        // Pick a random question from the potential ones
-        const selectedQ = potentialQuestions[Math.floor(Math.random() * potentialQuestions.length)];
+                // If all used, reset pool for this period (or just pick from all)
+                if (availableStimuli.length === 0) {
+                    availableStimuli = periodStimuli;
+                }
 
-        // Mark as used
-        state.usedQuestions.add(selectedQ.q);
-        localStorage.setItem('chronoTrailUsedQuestions', JSON.stringify([...state.usedQuestions]));
+                // Pick random
+                const randomStimulus = availableStimuli[Math.floor(Math.random() * availableStimuli.length)];
 
-        // Set current questions
-        state.currentQuestions = [selectedQ]; // Just one for now, logic was for multiple but we do one at a time
+                // Mark as used
+                state.usedStimuli.add(randomStimulus.id);
 
-        // Display
-        state.currentYear = selectedQ.year;
-        updateDisplay();
-
-        displayQuestionText(selectedQ);
-    }
-
-    function displayQuestionText(q) {
-        // Typewriter effect for question
-        questionText.innerHTML = `<span class="period-tag">[P${state.currentPeriod}]</span><br>`;
-        questionText.classList.add('typing');
-
-        let i = 0;
-        const text = q.q;
-        const speed = 30; // ms per char
-
-        function typeWriter() {
-            if (i < text.length) {
-                questionText.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, speed);
-            } else {
-                questionText.classList.remove('typing');
-                showOptions(q);
-            }
-        }
-
-        // Clear options while typing
-        optionsContainer.innerHTML = '';
-        typeWriter();
-    }
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
-    function showOptions(q) {
-        state.isProcessing = false;
-        optionsContainer.innerHTML = '';
-
-        let shuffledOptions = shuffleArray([...q.options]);
-
-        // Fix: Ensure "All of the above" is always last
-        const allAboveIndex = shuffledOptions.findIndex(opt => opt.toLowerCase() === "all of the above");
-        if (allAboveIndex !== -1) {
-            const allAbove = shuffledOptions.splice(allAboveIndex, 1)[0];
-            shuffledOptions.push(allAbove);
-        }
-
-        shuffledOptions.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.textContent = opt;
-            btn.onclick = () => handleAnswer(opt, q);
-            optionsContainer.appendChild(btn);
-        });
-
-        // Add Lifeline Button if available
-        if (state.lifelines > 0) {
-            const lifelineBtn = document.createElement('button');
-            lifelineBtn.textContent = "LIFELINE: 50/50";
-            lifelineBtn.style.borderColor = "var(--alert-color)";
-            lifelineBtn.style.color = "var(--alert-color)";
-            lifelineBtn.style.marginTop = "20px";
-            lifelineBtn.onclick = () => useLifeline(q, lifelineBtn);
-            optionsContainer.appendChild(lifelineBtn);
-        }
-    }
-
-    function useLifeline(q, btn) {
-        if (state.lifelines <= 0) return;
-
-        state.lifelines--;
-        btn.remove();
-
-        // Find incorrect options
-        const incorrectOptions = q.options.filter(opt => opt !== q.ans);
-
-        // Randomly select 2 incorrect options to remove (if there are 4 options)
-        // If there are 4 options, remove 2. If 3, remove 1? Standard is remove 2 from 4.
-        // Let's just keep the correct answer and one random incorrect answer.
-        const randomIncorrect = incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)];
-        const keptOptions = [q.ans, randomIncorrect];
-
-        // Filter buttons
-        const buttons = optionsContainer.querySelectorAll('button');
-        buttons.forEach(b => {
-            if (!keptOptions.includes(b.textContent)) {
-                b.style.display = 'none';
-            }
-        });
-
-        alert("ARCHIVE DATA ACCESSED. PROBABILITY RECALCULATED.");
-    }
-
-    function handleAnswer(selected, q) {
-        if (state.isProcessing) return;
-        state.isProcessing = true;
-
-        if (selected === q.ans) {
-            // Correct
-            state.streak++;
-            const streakMultiplier = 1 + (state.streak * 0.1); // 10% bonus per streak
-            state.score += Math.floor(100 * state.difficulty * streakMultiplier);
-
-            // Increase difficulty if not max
-            if (state.difficulty < 3) state.difficulty++;
-
-            // Visual feedback
-            gameContainer.style.boxShadow = "0 0 50px var(--text-color)";
-
-            // Audio feedback
-            soundManager.playCorrect();
-
-            handleProgression();
-
-        } else {
-            // Wrong
-            state.streak = 0;
-            state.stability -= 20;
-
-            // Decrease difficulty if not min
-            if (state.difficulty > 1) state.difficulty--;
-
-            triggerGlitch();
-            soundManager.playWrong();
-
-            // Show Explanation instead of immediate progression
-            showExplanation(q, selected);
-        }
-    }
-
-    function handleProgression() {
-        state.questionsAnsweredInPeriod++;
-
-        const questionLimit = state.singleUnitMode ? 25 : 15;
-
-        // Check if period is done
-        if (state.questionsAnsweredInPeriod >= questionLimit) {
-            // Check for Boss
-            const currentPeriodData = curriculum.find(p => p.period === state.currentPeriod);
-            if (currentPeriodData.boss) {
                 setTimeout(() => {
-                    initBossBattle(currentPeriodData.boss);
+                    initStimulusMode(randomStimulus);
                 }, 500);
                 return;
             }
-
-            proceedToNextPeriod();
-        } else {
-            // Check for Stimulus Trigger
-            // Trigger at Question 5 (Standard) AND Question 15 (Single Unit Bonus)
-            let triggerStimulus = false;
-            if (state.questionsAnsweredInPeriod === 5) triggerStimulus = true;
-            if (state.singleUnitMode && state.questionsAnsweredInPeriod === 15) triggerStimulus = true;
-
-            if (triggerStimulus) {
-                // Find all stimuli for this period
-                const periodStimuli = stimulusData.filter(s => s.period === state.currentPeriod);
-
-                if (periodStimuli.length > 0) {
-                    // Filter out used stimuli to avoid repetition
-                    if (!state.usedStimuli) state.usedStimuli = new Set();
-
-                    let availableStimuli = periodStimuli.filter(s => !state.usedStimuli.has(s.id));
-
-                    // If all used, reset pool for this period (or just pick from all)
-                    if (availableStimuli.length === 0) {
-                        availableStimuli = periodStimuli;
-                    }
-
-                    // Pick random
-                    const randomStimulus = availableStimuli[Math.floor(Math.random() * availableStimuli.length)];
-
-                    // Mark as used
-                    state.usedStimuli.add(randomStimulus.id);
-
-                    setTimeout(() => {
-                        initStimulusMode(randomStimulus);
-                    }, 500);
-                    return;
-                }
-            }
-
-            // Next question in same period
-            setTimeout(() => {
-                gameContainer.style.boxShadow = "0 0 20px var(--text-color), inset 0 0 20px rgba(57, 255, 20, 0.2)";
-                loadQuestion();
-            }, 500);
-        }
-    }
-
-    function proceedToNextPeriod() {
-        // Check if Single Unit Mode
-        if (state.singleUnitMode) {
-            endGame(true);
-            return;
         }
 
-        state.currentPeriod++;
-        state.questionsAnsweredInPeriod = 0;
-        state.hasWarpedInPeriod = false;
-
-        if (state.currentPeriod > 9) {
-            // Game Over (Win)
-            setTimeout(() => {
-                endGame(true);
-            }, 500);
-            return;
-        }
-
-        const nextPeriod = curriculum.find(p => p.period === state.currentPeriod);
-        gameContainer.style.boxShadow = "0 0 20px var(--text-color), inset 0 0 20px rgba(57, 255, 20, 0.2)";
-        showPeriodTransition(nextPeriod.period, nextPeriod.name, () => {
+        // Next question in same period
+        setTimeout(() => {
+            gameContainer.style.boxShadow = "0 0 20px var(--text-color), inset 0 0 20px rgba(57, 255, 20, 0.2)";
             loadQuestion();
-        });
+        }, 500);
+    }
+}
+
+function proceedToNextPeriod() {
+    // Check if Single Unit Mode
+    if (state.singleUnitMode) {
+        endGame(true);
+        return;
     }
 
-    function initBossBattle(bossData) {
-        questionArea.classList.add('hidden');
-        bossContainer.classList.remove('hidden');
+    state.currentPeriod++;
+    state.questionsAnsweredInPeriod = 0;
+    state.hasWarpedInPeriod = false;
 
-        // Populate Boss UI
-        state.isProcessing = false;
-        bossDocText.textContent = bossData.text;
-        bossDocSource.textContent = `// SOURCE: ${bossData.source}`;
-        bossQuestion.textContent = bossData.question;
-
-        bossOptions.innerHTML = '';
-        const shuffledBossOptions = shuffleArray([...bossData.options]);
-        shuffledBossOptions.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.textContent = opt;
-            btn.onclick = () => handleBossAnswer(opt, bossData.ans);
-            bossOptions.appendChild(btn);
-        });
-
-        // Visual Alert
-        gameContainer.style.boxShadow = "0 0 50px var(--danger-color), inset 0 0 50px rgba(255, 0, 0, 0.2)";
-        systemStatus.textContent = "ANOMALY DETECTED";
-        systemStatus.style.color = "var(--danger-color)";
-
-        // Audio feedback
-        soundManager.playBossStart();
+    if (state.currentPeriod > 9) {
+        // Game Over (Win)
+        setTimeout(() => {
+            endGame(true);
+        }, 500);
+        return;
     }
 
-    function handleBossAnswer(selected, correct) {
-        if (state.isProcessing) return;
-        state.isProcessing = true;
+    const nextPeriod = curriculum.find(p => p.period === state.currentPeriod);
+    gameContainer.style.boxShadow = "0 0 20px var(--text-color), inset 0 0 20px rgba(57, 255, 20, 0.2)";
+    showPeriodTransition(nextPeriod.period, nextPeriod.name, () => {
+        loadQuestion();
+    });
+}
 
-        if (selected === correct) {
-            // Boss Defeated
-            state.score += 500; // Big bonus
-            state.stability = 100; // Restore stability
-            alert("ANOMALY RESOLVED. TIMELINE STABILIZED.");
+function initBossBattle(bossData) {
+    questionArea.classList.add('hidden');
+    bossContainer.classList.remove('hidden');
 
-            bossContainer.classList.add('hidden');
-            soundManager.playCorrect();
-            proceedToNextPeriod();
-        } else {
-            // Failed Boss
-            state.stability -= 40; // Big hit
-            state.score -= 100;
-            triggerGlitch();
-            soundManager.playWrong();
+    // Populate Boss UI
+    state.isProcessing = false;
+    bossDocText.textContent = bossData.text;
+    bossDocSource.textContent = `// SOURCE: ${bossData.source}`;
+    bossQuestion.textContent = bossData.question;
 
-            if (state.stability <= 0) {
-                triggerLoopKick();
-            } else {
-                alert("INCORRECT ANALYSIS. TEMPORAL DAMAGE SUSTAINED.");
-                // For now, let them retry or just force proceed?
-                // Let's force proceed with damage to keep flow moving, or maybe retry?
-                // Let's allow retry but with penalty.
-                // Actually, let's just proceed to next period but with damage.
-                bossContainer.classList.add('hidden');
-                proceedToNextPeriod();
-            }
-        }
-    }
+    bossOptions.innerHTML = '';
+    const shuffledBossOptions = shuffleArray([...bossData.options]);
+    shuffledBossOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => handleBossAnswer(opt, bossData.ans);
+        bossOptions.appendChild(btn);
+    });
 
-    function initTimeWarp() {
-        questionArea.classList.add('hidden');
-        const warpContainer = document.getElementById('time-warp-container');
-        warpContainer.classList.remove('hidden');
+    // Visual Alert
+    gameContainer.style.boxShadow = "0 0 50px var(--danger-color), inset 0 0 50px rgba(255, 0, 0, 0.2)";
+    systemStatus.textContent = "ANOMALY DETECTED";
+    systemStatus.style.color = "var(--danger-color)";
 
-        // Pick random presidential question
-        const q = presidentialTrivia[Math.floor(Math.random() * presidentialTrivia.length)];
+    // Audio feedback
+    soundManager.playBossStart();
+}
 
-        const warpQuestion = document.getElementById('warp-question');
-        const warpOptions = document.getElementById('warp-options');
+function handleBossAnswer(selected, correct) {
+    if (state.isProcessing) return;
+    state.isProcessing = true;
 
-        warpQuestion.textContent = q.question;
-        warpOptions.innerHTML = '';
-        state.isProcessing = false;
+    if (selected === correct) {
+        // Boss Defeated
+        state.score += 500; // Big bonus
+        state.stability = 100; // Restore stability
+        alert("ANOMALY RESOLVED. TIMELINE STABILIZED.");
 
-        const shuffledWarpOptions = shuffleArray([...q.options]);
-        shuffledWarpOptions.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.textContent = opt;
-            btn.onclick = () => handleWarpAnswer(opt === q.answer);
-            warpOptions.appendChild(btn);
-        });
-    }
-
-    function handleWarpAnswer(isCorrect) {
-        if (state.isProcessing) return;
-        state.isProcessing = true;
-
-        const warpContainer = document.getElementById('time-warp-container');
-
-        if (isCorrect) {
-            state.stability += 10;
-            if (state.stability > 100) state.stability = 100;
-            alert("ANOMALY STABILIZED. TIMELINE SECURE.");
-            soundManager.playCorrect();
-        } else {
-            state.stability -= 20;
-            alert("TIMELINE FRACTURED. CRITICAL ERROR.");
-            soundManager.playWrong();
-            triggerGlitch();
-        }
-
-        warpContainer.classList.add('hidden');
-        questionArea.classList.remove('hidden');
-
-        // Resume game flow
-        handleProgression();
-    }
-
-    // Time Capsule Logic
-    function initTimeCapsule() {
-        questionArea.classList.add('hidden');
-        const capsuleContainer = document.getElementById('time-capsule-container');
-        capsuleContainer.classList.remove('hidden');
-
-        // Pick a random question from the current period (reuse existing pool)
-        const periodData = curriculum.find(p => p.period === state.currentPeriod);
-        const q = periodData.questions[Math.floor(Math.random() * periodData.questions.length)];
-
-        const capsuleQuestion = document.getElementById('capsule-question');
-        const capsuleOptions = document.getElementById('capsule-options');
-
-        capsuleQuestion.textContent = "BONUS: " + q.q;
-        capsuleOptions.innerHTML = '';
-        state.isProcessing = false;
-
-        const shuffledOptions = shuffleArray([...q.options]);
-        shuffledOptions.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.textContent = opt;
-            btn.onclick = () => handleCapsuleAnswer(opt === q.ans);
-            capsuleOptions.appendChild(btn);
-        });
-    }
-
-    function handleCapsuleAnswer(isCorrect) {
-        if (state.isProcessing) return;
-        state.isProcessing = true;
-
-        const capsuleContainer = document.getElementById('time-capsule-container');
-
-        if (isCorrect) {
-            state.stability += 25;
-            if (state.stability > 100) state.stability = 100;
-            alert("CAPSULE SECURED. STABILITY RESTORED.");
-            soundManager.playCorrect();
-        } else {
-            alert("CAPSULE SEALED. NO PENALTY.");
-            // No penalty for wrong answer
-        }
-
-        capsuleContainer.classList.add('hidden');
-        questionArea.classList.remove('hidden');
-        handleProgression();
-    }
-
-    // Explanation Modal Logic
-    function showExplanation(q, selectedAnswer) {
-        const modal = document.getElementById('explanation-modal');
-        const explanationText = document.getElementById('explanation-text');
-        const contextText = document.getElementById('historical-context');
-
-        explanationText.innerHTML = `You selected: <span style="color: var(--danger-color)">${selectedAnswer}</span><br><br>
-                                 <span style="color: var(--alert-color)">INCORRECT ANALYSIS</span>`;
-
-        let contextContent = "";
-        if (q.explanation) {
-            contextContent = `<strong>Analysis:</strong><br>${q.explanation}`;
-        } else {
-            const hint = periodHints[state.currentPeriod] || "Review the historical timeline.";
-            contextContent = `<strong>Historical Context (${q.year}):</strong><br>${hint}`;
-        }
-        contextText.innerHTML = `${contextContent}`;
-
-        modal.classList.remove('hidden');
-    }
-
-    function closeExplanation() {
-        const modal = document.getElementById('explanation-modal');
-        modal.classList.add('hidden');
+        bossContainer.classList.add('hidden');
+        soundManager.playCorrect();
+        proceedToNextPeriod();
+    } else {
+        // Failed Boss
+        state.stability -= 40; // Big hit
+        state.score -= 100;
+        triggerGlitch();
+        soundManager.playWrong();
 
         if (state.stability <= 0) {
             triggerLoopKick();
         } else {
-            handleProgression();
+            alert("INCORRECT ANALYSIS. TEMPORAL DAMAGE SUSTAINED.");
+            // For now, let them retry or just force proceed?
+            // Let's force proceed with damage to keep flow moving, or maybe retry?
+            // Let's allow retry but with penalty.
+            // Actually, let's just proceed to next period but with damage.
+            bossContainer.classList.add('hidden');
+            proceedToNextPeriod();
         }
     }
+}
 
-    // Stimulus Mode State
-    let currentStimulus = null;
-    let currentStimulusQuestionIndex = 0;
+function initTimeWarp() {
+    questionArea.classList.add('hidden');
+    const warpContainer = document.getElementById('time-warp-container');
+    warpContainer.classList.remove('hidden');
 
-    function initStimulusMode(stimulus) {
-        questionArea.classList.add('hidden');
-        stimulusContainer.classList.remove('hidden');
+    // Pick random presidential question
+    const q = presidentialTrivia[Math.floor(Math.random() * presidentialTrivia.length)];
 
-        currentStimulus = stimulus;
-        currentStimulusQuestionIndex = 0;
+    const warpQuestion = document.getElementById('warp-question');
+    const warpOptions = document.getElementById('warp-options');
 
-        stimulusSource.textContent = `SOURCE: ${stimulus.source} (${stimulus.year})`;
-        stimulusText.textContent = stimulus.content;
+    warpQuestion.textContent = q.question;
+    warpOptions.innerHTML = '';
+    state.isProcessing = false;
 
-        loadStimulusQuestion();
-    }
+    const shuffledWarpOptions = shuffleArray([...q.options]);
+    shuffledWarpOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => handleWarpAnswer(opt === q.answer);
+        warpOptions.appendChild(btn);
+    });
+}
 
-    function loadStimulusQuestion() {
-        const q = currentStimulus.questions[currentStimulusQuestionIndex];
-        stimulusQuestionText.textContent = q.q;
-        stimulusOptions.innerHTML = '';
-        state.isProcessing = false;
+function handleWarpAnswer(isCorrect) {
+    if (state.isProcessing) return;
+    state.isProcessing = true;
 
-        const shuffledStimOptions = shuffleArray([...q.options]);
-        shuffledStimOptions.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.textContent = opt;
-            btn.onclick = () => handleStimulusAnswer(opt, q.ans);
-            stimulusOptions.appendChild(btn);
-        });
-    }
+    const warpContainer = document.getElementById('time-warp-container');
 
-    function handleStimulusAnswer(selected, correct) {
-        if (state.isProcessing) return;
-        state.isProcessing = true;
-
-        if (selected === correct) {
-            state.score += 150 * state.difficulty; // Higher points for analysis
-            state.streak++;
-            updateStability(5);
-            soundManager.playCorrect();
-            // Visual feedback could be added here
-        } else {
-            state.streak = 0;
-            state.stability -= 15;
-            soundManager.playWrong();
-            triggerGlitch();
-        }
-
-        updateDisplay();
-
-        currentStimulusQuestionIndex++;
-
-        if (currentStimulusQuestionIndex < currentStimulus.questions.length) {
-            setTimeout(loadStimulusQuestion, 1000);
-        } else {
-            // Stimulus set complete
-            setTimeout(() => {
-                stimulusContainer.classList.add('hidden');
-                questionArea.classList.remove('hidden');
-                handleProgression(); // Move to next step in game loop
-            }, 1000);
-        }
-    }
-
-    function showPeriodTransition(periodNum, periodName, callback) {
-        questionArea.classList.add('hidden');
-        messageArea.classList.remove('hidden');
-        messageArea.innerHTML = `<h1>ENTERING PERIOD ${periodNum}</h1><h2>${periodName}</h2><p>Loading temporal data...</p>`;
-
-        setTimeout(() => {
-            messageArea.classList.add('hidden');
-            questionArea.classList.remove('hidden');
-            callback();
-        }, 2000);
-    }
-
-    function updateStability(amount) {
-        state.stability += amount;
+    if (isCorrect) {
+        state.stability += 10;
         if (state.stability > 100) state.stability = 100;
-        if (state.stability < 0) state.stability = 0;
+        alert("ANOMALY STABILIZED. TIMELINE SECURE.");
+        soundManager.playCorrect();
+    } else {
+        state.stability -= 20;
+        alert("TIMELINE FRACTURED. CRITICAL ERROR.");
+        soundManager.playWrong();
+        triggerGlitch();
     }
 
-    function triggerGlitch() {
-        gameContainer.classList.add('glitch-active');
+    warpContainer.classList.add('hidden');
+    questionArea.classList.remove('hidden');
+
+    // Resume game flow
+    handleProgression();
+}
+
+// Time Capsule Logic
+function initTimeCapsule() {
+    questionArea.classList.add('hidden');
+    const capsuleContainer = document.getElementById('time-capsule-container');
+    capsuleContainer.classList.remove('hidden');
+
+    // Pick a random question from the current period (reuse existing pool)
+    const periodData = curriculum.find(p => p.period === state.currentPeriod);
+    const q = periodData.questions[Math.floor(Math.random() * periodData.questions.length)];
+
+    const capsuleQuestion = document.getElementById('capsule-question');
+    const capsuleOptions = document.getElementById('capsule-options');
+
+    capsuleQuestion.textContent = "BONUS: " + q.q;
+    capsuleOptions.innerHTML = '';
+    state.isProcessing = false;
+
+    const shuffledOptions = shuffleArray([...q.options]);
+    shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => handleCapsuleAnswer(opt === q.ans);
+        capsuleOptions.appendChild(btn);
+    });
+}
+
+function handleCapsuleAnswer(isCorrect) {
+    if (state.isProcessing) return;
+    state.isProcessing = true;
+
+    const capsuleContainer = document.getElementById('time-capsule-container');
+
+    if (isCorrect) {
+        state.stability += 25;
+        if (state.stability > 100) state.stability = 100;
+        alert("CAPSULE SECURED. STABILITY RESTORED.");
+        soundManager.playCorrect();
+    } else {
+        alert("CAPSULE SEALED. NO PENALTY.");
+        // No penalty for wrong answer
+    }
+
+    capsuleContainer.classList.add('hidden');
+    questionArea.classList.remove('hidden');
+    handleProgression();
+}
+
+// Explanation Modal Logic
+function showExplanation(q, selectedAnswer) {
+    const modal = document.getElementById('explanation-modal');
+    const explanationText = document.getElementById('explanation-text');
+    const contextText = document.getElementById('historical-context');
+
+    explanationText.innerHTML = `You selected: <span style="color: var(--danger-color)">${selectedAnswer}</span><br><br>
+                                 <span style="color: var(--alert-color)">INCORRECT ANALYSIS</span>`;
+
+    let contextContent = "";
+    if (q.explanation) {
+        contextContent = `<strong>Analysis:</strong><br>${q.explanation}`;
+    } else {
+        const hint = periodHints[state.currentPeriod] || "Review the historical timeline.";
+        contextContent = `<strong>Historical Context (${q.year}):</strong><br>${hint}`;
+    }
+    contextText.innerHTML = `${contextContent}`;
+
+    modal.classList.remove('hidden');
+}
+
+function closeExplanation() {
+    const modal = document.getElementById('explanation-modal');
+    modal.classList.add('hidden');
+
+    if (state.stability <= 0) {
+        triggerLoopKick();
+    } else {
+        handleProgression();
+    }
+}
+
+// Stimulus Mode State
+let currentStimulus = null;
+let currentStimulusQuestionIndex = 0;
+
+function initStimulusMode(stimulus) {
+    questionArea.classList.add('hidden');
+    stimulusContainer.classList.remove('hidden');
+
+    currentStimulus = stimulus;
+    currentStimulusQuestionIndex = 0;
+
+    stimulusSource.textContent = `SOURCE: ${stimulus.source} (${stimulus.year})`;
+    stimulusText.textContent = stimulus.content;
+
+    loadStimulusQuestion();
+}
+
+function loadStimulusQuestion() {
+    const q = currentStimulus.questions[currentStimulusQuestionIndex];
+    stimulusQuestionText.textContent = q.q;
+    stimulusOptions.innerHTML = '';
+    state.isProcessing = false;
+
+    const shuffledStimOptions = shuffleArray([...q.options]);
+    shuffledStimOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => handleStimulusAnswer(opt, q.ans);
+        stimulusOptions.appendChild(btn);
+    });
+}
+
+function handleStimulusAnswer(selected, correct) {
+    if (state.isProcessing) return;
+    state.isProcessing = true;
+
+    if (selected === correct) {
+        state.score += 150 * state.difficulty; // Higher points for analysis
+        state.streak++;
+        updateStability(5);
+        soundManager.playCorrect();
+        // Visual feedback could be added here
+    } else {
+        state.streak = 0;
+        state.stability -= 15;
+        soundManager.playWrong();
+        triggerGlitch();
+    }
+
+    updateDisplay();
+
+    currentStimulusQuestionIndex++;
+
+    if (currentStimulusQuestionIndex < currentStimulus.questions.length) {
+        setTimeout(loadStimulusQuestion, 1000);
+    } else {
+        // Stimulus set complete
         setTimeout(() => {
-            gameContainer.classList.remove('glitch-active');
-        }, 500);
+            stimulusContainer.classList.add('hidden');
+            questionArea.classList.remove('hidden');
+            handleProgression(); // Move to next step in game loop
+        }, 1000);
     }
+}
 
-    function triggerLoopKick() {
-        // Logic: Reset to start of current period or previous period?
-        // Let's restart the current period
-        state.questionsAnsweredInPeriod = 0;
-        state.stability = 50;
-        state.difficulty = 1; // Reset difficulty to easy
+function showPeriodTransition(periodNum, periodName, callback) {
+    questionArea.classList.add('hidden');
+    messageArea.classList.remove('hidden');
+    messageArea.innerHTML = `<h1>ENTERING PERIOD ${periodNum}</h1><h2>${periodName}</h2><p>Loading temporal data...</p>`;
 
-        alert("CRITICAL FAILURE! CHRONO-STABILITY COLLAPSED. RESTARTING PERIOD SEQUENCE.");
-
-        bossContainer.classList.add('hidden'); // Hide boss if active
-        questionArea.classList.remove('hidden'); // SHOW QUESTION AREA!
-        updateDisplay();
-        loadQuestion();
-    }
-
-    function saveHighScore() {
-        if (state.score > state.highScore) {
-            state.highScore = state.score;
-            state.highScoreName = state.playerName;
-            const saveObj = {
-                score: state.highScore,
-                name: state.highScoreName
-            };
-            localStorage.setItem('chronoTrailHighScore', JSON.stringify(saveObj));
-            return true; // New record
-        }
-        return false;
-    }
-
-    function endGame(victory) {
-        // Ensure UI is reset
+    setTimeout(() => {
+        messageArea.classList.add('hidden');
         questionArea.classList.remove('hidden');
-        bossContainer.classList.add('hidden');
-        stimulusContainer.classList.add('hidden');
-        document.getElementById('time-warp-container').classList.add('hidden');
-        document.getElementById('time-capsule-container').classList.add('hidden');
+        callback();
+    }, 2000);
+}
 
-        const isNewRecord = saveHighScore();
-        const highScoreMsg = isNewRecord ?
-            `<p class="new-record">NEW HIGH SCORE! (${state.score})</p>` :
-            `<p>High Score: ${state.highScore} (${state.highScoreName})</p>`;
+function updateStability(amount) {
+    state.stability += amount;
+    if (state.stability > 100) state.stability = 100;
+    if (state.stability < 0) state.stability = 0;
+}
 
-        let victoryTitle = "TIMELINE RESTORED... UNFORTUNATELY.";
-        let victoryText = `<p>Wow. You actually made it back to the present.</p>
+function triggerGlitch() {
+    gameContainer.classList.add('glitch-active');
+    setTimeout(() => {
+        gameContainer.classList.remove('glitch-active');
+    }, 500);
+}
+
+function triggerLoopKick() {
+    // Logic: Reset to start of current period or previous period?
+    // Let's restart the current period
+    state.questionsAnsweredInPeriod = 0;
+    state.stability = 50;
+    state.difficulty = 1; // Reset difficulty to easy
+
+    alert("CRITICAL FAILURE! CHRONO-STABILITY COLLAPSED. RESTARTING PERIOD SEQUENCE.");
+
+    bossContainer.classList.add('hidden'); // Hide boss if active
+    questionArea.classList.remove('hidden'); // SHOW QUESTION AREA!
+    updateDisplay();
+    loadQuestion();
+}
+
+function saveHighScore() {
+    if (state.score > state.highScore) {
+        state.highScore = state.score;
+        state.highScoreName = state.playerName;
+        const saveObj = {
+            score: state.highScore,
+            name: state.highScoreName
+        };
+        localStorage.setItem('chronoTrailHighScore', JSON.stringify(saveObj));
+        return true; // New record
+    }
+    return false;
+}
+
+function endGame(victory) {
+    // Ensure UI is reset
+    questionArea.classList.remove('hidden');
+    bossContainer.classList.add('hidden');
+    stimulusContainer.classList.add('hidden');
+    document.getElementById('time-warp-container').classList.add('hidden');
+    document.getElementById('time-capsule-container').classList.add('hidden');
+
+    const isNewRecord = saveHighScore();
+    const highScoreMsg = isNewRecord ?
+        `<p class="new-record">NEW HIGH SCORE! (${state.score})</p>` :
+        `<p>High Score: ${state.highScore} (${state.highScoreName})</p>`;
+
+    let victoryTitle = "TIMELINE RESTORED... UNFORTUNATELY.";
+    let victoryText = `<p>Wow. You actually made it back to the present.</p>
          <p>Look around... are you <em>sure</em> this was a good idea?</p>`;
 
-        if (state.singleUnitMode && victory) {
-            victoryTitle = `PERIOD ${state.currentPeriod} SECURED`;
-            victoryText = `<p>Temporal anomaly in this sector has been resolved.</p>
+    if (state.singleUnitMode && victory) {
+        victoryTitle = `PERIOD ${state.currentPeriod} SECURED`;
+        victoryText = `<p>Temporal anomaly in this sector has been resolved.</p>
         <p>Excellent work, Agent.</p>`;
-        }
+    }
 
-        questionArea.innerHTML = victory ?
-            `<h1>${victoryTitle}</h1>
+    questionArea.innerHTML = victory ?
+        `<h1>${victoryTitle}</h1>
          ${victoryText}
          <p>Final Score: ${state.score}</p>
          ${highScoreMsg}
          <button onclick="location.reload()">RETURN TO BASE</button>` :
-            `<h1>MISSION FAILED</h1><p>Lost in time.</p><p>Final Score: ${state.score}</p>${highScoreMsg}<button onclick="location.reload()">TRY AGAIN</button>`;
+        `<h1>MISSION FAILED</h1><p>Lost in time.</p><p>Final Score: ${state.score}</p>${highScoreMsg}<button onclick="location.reload()">TRY AGAIN</button>`;
 
-        if (victory) {
-            soundManager.playWin();
-        } else {
-            soundManager.playGameOver();
-        }
-        soundManager.stopBGM();
+    if (victory) {
+        soundManager.playWin();
+    } else {
+        soundManager.playGameOver();
     }
+    soundManager.stopBGM();
+}
 
-    window.onerror = function (msg, url, line, col, error) {
-        const errorMsg = `ERROR: ${msg}\nLINE: ${line}\nSTACK: ${error ? error.stack : 'N/A'}`;
-        console.error(errorMsg);
+window.onerror = function (msg, url, line, col, error) {
+    const errorMsg = `ERROR: ${msg}\nLINE: ${line}\nSTACK: ${error ? error.stack : 'N/A'}`;
+    console.error(errorMsg);
 
-        const messageArea = document.getElementById('message-area');
-        if (messageArea) {
-            messageArea.classList.remove('hidden');
-            // Ensure it's on top
-            messageArea.style.zIndex = "9999";
-            messageArea.innerHTML += `<div style="color: var(--danger-color); border: 1px solid var(--danger-color); padding: 10px; margin-top: 10px; text-align: left; background: rgba(0,0,0,0.9);">
+    const messageArea = document.getElementById('message-area');
+    if (messageArea) {
+        messageArea.classList.remove('hidden');
+        // Ensure it's on top
+        messageArea.style.zIndex = "9999";
+        messageArea.innerHTML += `<div style="color: var(--danger-color); border: 1px solid var(--danger-color); padding: 10px; margin-top: 10px; text-align: left; background: rgba(0,0,0,0.9);">
             <strong>SYSTEM FAILURE:</strong><br>${msg}<br>
             <small>@ ${url.split('/').pop()}:${line}</small><br>
             <pre style="font-size: 0.8rem; overflow: auto; max-height: 100px;">${error ? error.stack : ''}</pre>
             <br>
             <button onclick="hardReset()" style="width: auto; min-width: auto; padding: 5px;">INITIATE HARD RESET</button>
         </div>`;
-        }
-    };
-
-    function hardReset() {
-        if (confirm("WARNING: THIS WILL WIPE ALL CHRONO-DATA (SCORES & HISTORY). PROCEED?")) {
-            localStorage.clear();
-            location.reload();
-        }
     }
+};
 
-    // Hard Reset Shortcut (Ctrl+Shift+R is usually browser reload, let's use Ctrl+Shift+H)
-    document.addEventListener('keydown', (e) => {
-        if (e.ctrlKey && e.shiftKey && e.key === 'H') {
-            hardReset();
-        }
-    });
+function hardReset() {
+    if (confirm("WARNING: THIS WILL WIPE ALL CHRONO-DATA (SCORES & HISTORY). PROCEED?")) {
+        localStorage.clear();
+        location.reload();
+    }
+}
+
+// Hard Reset Shortcut (Ctrl+Shift+R is usually browser reload, let's use Ctrl+Shift+H)
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'H') {
+        hardReset();
+    }
+});
 
 // Auto-start removed. Game starts via button.
 // try {
